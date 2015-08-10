@@ -340,6 +340,14 @@
                         <li><a href="{{ path('dywee_currency_table') }}"><i class="fa fa-dollar"></i> Gestion des devises</a></li>
                     </ul>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="header">SUPER ADMIN NAVIGATION</li>
+                    <li>
+                        <a href="{{ path('dywee_website_table') }}">
+                            <i class="fa fa-home"></i> <span>Websites</span>
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </section>
         <!-- /.sidebar -->
