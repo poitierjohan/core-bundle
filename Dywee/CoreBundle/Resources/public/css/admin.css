@@ -27,10 +27,6 @@ header.admin { margin-bottom: 50px; }
 
 /**** STYLE GENERAL ****/
 
-.website-preview-img{
-	height: 300px;
-}
-
 #mainContent{
 	padding-top: 20px;
 }
@@ -565,4 +561,18 @@ h2 .btn{
 
 .separator{
 	margin: 0 6px;
+}
+
+.website-thumbnail{
+	background-color: #FFF;
+	padding: 20px;
+}
+
+.website-thumbnail .header{
+	padding-bottom: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.website-thumbnail .title-heading{
+	border: none;
 }
