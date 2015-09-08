@@ -26,7 +26,6 @@
         <a href="../../index2.html">Dywee<b>Admin</b></a>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="text-muted">Connectez-vous pour accéder votre administration</p>
         {% block body %}
         {% endblock %}
 
@@ -35,9 +34,6 @@
             <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
             <a href="#" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>
         </div><!-- /.social-auth-links -->#}
-
-        <a href="{{ path('fos_user_resetting_request') }}">J'ai oublié mon mot de passe</a><br>
-        <a href="{{ path('fos_user_registration_register') }}" class="text-center">M'inscrire</a>
 
     </div><!-- /.login-box-body -->
 </div><!-- /.login-box -->

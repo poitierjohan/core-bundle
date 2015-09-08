@@ -554,9 +554,13 @@ h2 .btn{
 	margin: auto 1px;
 }
 
-.actions-right{
+.actions-right, .action-right{
 	float: right;
-	margin-top: 20px;
+	margin-top: 24px;
+}
+
+.action-right i{
+	margin-right: 4px;
 }
 
 .separator{
