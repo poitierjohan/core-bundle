@@ -19,7 +19,7 @@ class CronController extends Controller
 
     public function mainAction()
     {
-        $response = '<html><body><p>--> Cron</p>';
+        $response = '<html><body><p>--> Cron 0.1</p>';
         $response .= '<p>----------------------------------------------------------------------</p>';
 
         $response .= '<p>Nettoyage des commandes annulées</p>';
@@ -35,22 +35,6 @@ class CronController extends Controller
 
         foreach($os as $o)
             $em->remove($o);
-        $em->flush();
-
-        $response .= '<p>----------------------------------------------------------------------</p>';
-
-        $response .= '<p>Nettoyage des commandes nulles actives</p>';
-
-        $os = $or->findBy(
-            array(
-                'state' => 1,
-                'totalPrice' => 0)
-        );
-        foreach($os as $order)
-        {
-            $order->setState(-1);
-            $em->persist($order);
-        }
         $em->flush();
 
         $response .= '<p>----------------------------------------------------------------------</p>';
@@ -135,7 +119,7 @@ class CronController extends Controller
 
                     $message = \Swift_Message::newInstance()
                         ->setSubject('Confirmation de votre paiement')
-                        ->setFrom('info@labelgiqueunefois.be')
+                        ->setFrom('info@labelgiqueunefois.com')
                         ->setTo($order->getBillingAddress()->getEmail())
                         ->setBody($this->renderView('DyweeOrderBundle:Email:mail-step2.html.twig', array('order' => $order)))
                         //->attach(Swift_Attachment::fromPath($pdfGenerator->generatePDF($bill, 'UTF-8')))
@@ -148,12 +132,15 @@ class CronController extends Controller
             }
             $response .= '<br>Fin de la gestion de la commande #'.$order->getId().'</p>';
 
-            $notification = new Notification();
-            $notification->setContent($newOrderNotificationCounter . ' nouvelles commandes');
-            $notification->setType(1);
+            if($newOrderNotificationCounter > 0)
+            {
+                $notification = new Notification();
+                $notification->setContent($newOrderNotificationCounter . ' nouvelles commandes');
+                $notification->setType(1);
 
-            $em->persist($notification);
-            $em->flush();
+                $em->persist($notification);
+                $em->flush();
+            }
         }
 
         $response .= '<p>----------------------------------------------------------------------</p>';
@@ -164,9 +151,10 @@ class CronController extends Controller
         $os = $or->findBy(
             array(
                 'state' => -1,
+                'totalPrice' => 0
             ),
-            array('creationDate' => 'desc'),
-            10
+            array('creationDate' => 'asc'),
+            200
         );
 
         foreach($os as $order)
@@ -178,7 +166,6 @@ class CronController extends Controller
                 $em->flush();
                 $response .= '<br>Suppression réussie</p>';
             }
-            else break;
         }
 
         //*/
@@ -263,7 +250,7 @@ class CronController extends Controller
                             if ($shipment->getOrder()->getIsGift() == 1) {
                                 $message = \Swift_Message::newInstance()
                                     ->setSubject('La Belgique une fois - Le colis a été réceptionné')
-                                    ->setFrom('info@labelgiqueunefois.be')
+                                    ->setFrom('info@labelgiqueunefois.com')
                                     ->setTo($shipment->getOrder()->getBillingAddress()->getEmail())
                                     ->setBody($this->renderView('DyweeOrderBundle:Email:mail-step5.html.twig', array('order' => $shipment->getOrder())));
                                 $message->setContentType("text/html");

@@ -65,7 +65,11 @@
                     {{ render (controller('DyweeContactBundle:Contact:dropdown')) }}
                     <!-- Notifications: style can be found in dropdown.less -->
                     {{ render(controller('DyweeNotificationBundle:Notification:dropdown')) }}
+                    <!-- Notifications: style can be found in dropdown.less -->
+                    {{ render(controller('DyweeNotificationBundle:Alert:dropdown')) }}
+
                     <!-- Tasks: style can be found in dropdown.less -->
+
                     {#<li class="dropdown tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-flag-o"></i>
@@ -290,7 +294,8 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ path('dywee_deliver_table') }}"><i class="fa fa-list-alt"></i> Liste des livreurs</a></li>
+                            <li><a href="{{ path('dywee_product_stock_dashboard') }}"><i class="fa fa-list-alt"></i> Gestion des stocks</a></li>
+                            <li><a href="{{ path('dywee_deliver_table') }}"><i class="fa fa-list-alt"></i> Gestion des livreurs</a></li>
                             <li><a href="{{ path('dywee_shipmentMethod_table') }}"><i class="fa fa-dollar"></i> Frais de livraison</a></li>
                             <li><a href="{{ path('dywee_currency_table') }}"><i class="fa fa-dollar"></i> Gestion des devises</a></li>
                         </ul>
