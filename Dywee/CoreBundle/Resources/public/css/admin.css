@@ -575,8 +575,23 @@ h2 .btn{
 .website-thumbnail .header{
 	padding-bottom: 10px;
 	border-bottom: 1px solid #ddd;
+	margin-bottom: 20px;
 }
 
 .website-thumbnail .title-heading{
 	border: none;
+}
+
+.website-img{
+	height: 300px;
+	width: 100%;
+}
+
+.dywee-pageElement-placeholder{
+	height: 100px;
+	width: 98%;
+	margin: auto;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+	margin-bottom: 20px;
 }

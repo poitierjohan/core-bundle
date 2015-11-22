@@ -12,12 +12,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class ParametersManagerRepository extends EntityRepository
 {
-    /*public function getStockParameters()
-    {
-        $qb = $this->createQueryBuilder('pm')
-            ->select('pm')
-            ->where('pm.name like \'%stock%\'');
-
-        return $qb->getQuery()->getResult();
-    }*/
 }

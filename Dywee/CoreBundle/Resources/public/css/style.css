@@ -3,11 +3,11 @@
 	Template Author : pixelhint.com
 	Author Email    : contact@pixelhint.com
 	Template Name   : Sublime
-	
-	
+
+
 	*****************************************
-	
-	
+
+
     - fonts
     - general css
     - header & nav
@@ -17,7 +17,7 @@
     - testimonials
     - blog posts
 	- footer
-	
+
 */
 
 
@@ -169,7 +169,7 @@ nav ul li{
 }
 
 nav ul li a{
-    text-decoration: none;  
+    text-decoration: none;
     font-family: "raleway-regular";
     font-size: 14px;
     transition:all .2s linear;
@@ -281,7 +281,7 @@ nav ul li a{
    color: #838181;
     font-family: "raleway-regular";
     font-size: 14px;
-    line-height: 28px; 
+    line-height: 28px;
     margin-top: 40px;
     letter-spacing: .5px;
 }

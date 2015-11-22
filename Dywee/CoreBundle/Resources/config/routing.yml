@@ -25,3 +25,11 @@ dywee_install:
 dywee_admin_settings:
     path:     /admin6833/settings
     defaults: { _controller: DyweeCoreBundle:Admin:settings }
+
+dywee_test_page:
+    path:     /test6833
+    defaults: { _controller: DyweeCoreBundle:Test:test }
+
+dywee_test_page2:
+    path:     /test68332
+    defaults: { _controller: DyweeCoreBundle:Test:test2 }

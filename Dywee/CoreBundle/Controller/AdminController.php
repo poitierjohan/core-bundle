@@ -12,9 +12,13 @@ class AdminController extends Controller
     {
         $activeWebsite = $this->get('session')->get('activeWebsite');
 
-        if($activeWebsite->getType() == 'commerce')
-            return $this->render('DyweeCoreBundle:Sidebar:commerce.html.twig');
-        else if($activeWebsite->getType() == 'music')
-            return $this->render('DyweeCoreBundle:Sidebar:music.html.twig');
+        if($activeWebsite) {
+            $type = $activeWebsite->getType();
+            if ($type == 'commerce')
+                return $this->render('DyweeCoreBundle:Sidebar:commerce.html.twig');
+            else if ($type == 'music')
+                return $this->render('DyweeCoreBundle:Sidebar:music.html.twig');
+        }
+        else return $this->render('DyweeCoreBundle:Sidebar:main.html.twig');
     }
 }
