@@ -8,18 +8,11 @@
 
     {#Pour la version en ligne#}
 
-    {#
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    #}
-
-    <link href="{{ asset('bundles/dyweecore/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/dyweecore/css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/dyweecore/css/ionicons.min.css') }}" rel="stylesheet">
-
     <!-- jvectormap -->
     <link href="{{ asset('bundles/dyweecore/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet">
     <!-- Theme style -->
@@ -34,8 +27,8 @@
     {% endblock %}
 
 
-    {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>#}
-    <script src="{{ asset('bundles/dyweecore/js/jquery.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    {#<script src="{{ asset('bundles/dyweecore/js/jquery.min.js') }}"></script>#}
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -149,7 +142,43 @@
                         </ul>
                     </li>#}
                     <!-- User Account: style can be found in dropdown.less -->
-                    {{ render(controller('DyweeUserBundle:User:dropdown')) }}
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{{ asset('bundles/dyweecore/images/avatar5.png') }}" class="user-image" alt="User Image"/>
+                            <span class="hidden-xs">{{ app.user.firstName }} {{ app.user.lastName }}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="{{ asset('bundles/dyweecore/images/avatar5.png') }}" class="img-circle" alt="User Image" />
+                                <p>
+                                    {{ app.user.firstName }} {{ app.user.lastName }} - Website Administrateur
+                                    {#<small>Membre depuis Nov. 2012</small>#}
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="col-xs-6 text-center">
+                                    <a href="{{ path('dywee_admin_settings') }}"><i class="fa fa-cogs"></i> Configurer</a>
+                                </div>
+                                {#<div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>#}
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="{{ path('fos_user_profile_show') }}" class="btn btn-default btn-flat">Profil</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="{{ path('logout') }}" class="btn btn-default btn-flat">Déconnexion</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
                     <!-- Control Sidebar Toggle Button -->
                     <li>
                         <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -588,27 +617,26 @@
     <div class="control-sidebar-bg"></div>
 </div><!-- ./wrapper -->
 
-<div class="modal fade" id="dyweeModal" tabindex="-1" role="dialog" aria-labelledby="dyweeModalLabel">
-    <div class="modal-dialog" role="document">
+
+<div class="modal fade" id="dyweeModal">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="dyweeModalLabel">Modal title</h4>
+                <h4 class="modal-title">Modal title</h4>
             </div>
             <div class="modal-body">
-                ...
+                <p>One fine body&hellip;</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="dyweeModalCloseButton">Close</button>
-                <button type="button" class="btn btn-primary" id="dyweeModalContinueButton">Save changes</button>
+                <button type="button" id="dyweeModalCloseBtn" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="dyweeSaveCloseBtn" class="btn btn-primary">Save changes</button>
             </div>
-        </div>
-    </div>
-</div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>#}
-
-<script src="{{ asset('bundles/dyweecore/js/bootstrap.min.js') }}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <script src="{{ asset('bundles/dyweecore/js/holder.js') }}"></script>
 
@@ -626,28 +654,19 @@
 <!-- ChartJS 1.0.1 -->
 <script src="{{ asset('bundles/dyweecore/plugins/chartjs/Chart.min.js') }}"></script>
 
-<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-
-<script src="{{ asset('bundles/dyweecore/js/imgLiquid.min.js') }}"></script>
-
 {#<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>#}
 
 {% block footerJavascript %}
     <script>
         $(document).ready(function() {
-            $(".website-img").imgLiquid({
-                fill: true,
-                horizontalAlign: "center",
-                verticalAlign: "top"
-            });
-
             $('a[data-confirm]').click(function(ev) {
                 var href = $(this).attr('href');
-                $('#dyweeModal').find('.modal-body').text($(this).attr('data-confirm'));
-                $('#dyweeModal').find('.modal-body').append(" \"<b><i>"+$(this).attr('data-name')+"</i></b>\"<p>Cette action est irréversible.</p>");
-                $('#dyweeModalContinueButton').attr('href', href);
-                $('#dyweeModal').modal({show:true});
+                if (!$('#dataConfirmModal').length)
+                    $('body').append('<div class="modal fade" id="dataConfirmModal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Attention!</h4></div><div class="modal-body"><p><i class="fa fa-spinner fa-spin"></i> Veuillez patienter </p></div><div class="modal-footer"><a class="btn btn-danger" id="dataConfirmOK">Supprimer</a><button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button></div></div></div></div>');
+                $('#dataConfirmModal').find('.modal-body').text($(this).attr('data-confirm'));
+                $('#dataConfirmModal').find('.modal-body').append(" \"<b><i>"+$(this).attr('data-name')+"</i></b>\"<p>Cette action est irréversible.</p>");
+                $('#dataConfirmOK').attr('href', href);
+                $('#dataConfirmModal').modal({show:true});
                 return false;
             });
         });

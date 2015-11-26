@@ -40,12 +40,12 @@ class InstallController extends Controller
         }
         $em->flush();*/
 
-        $this->installCMSAction();
+        $this->installCMS();
 
         return $this->redirect($this->generateUrl('dywee_cms_homepage'));
     }
 
-    public function installCMSAction($callback = null)
+    public function installCMS($callback = null)
     {
         $em = $this->getDoctrine()->getManager();
 
