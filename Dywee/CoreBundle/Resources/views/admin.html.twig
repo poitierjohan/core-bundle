@@ -263,15 +263,6 @@
                     </div>
                 </div>
             {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('success') %}
-                <div class="col-md-12">
-                    <div class="alert alert-warning alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-warning"></i>{{ flashMessage }}</h4>
-
-                    </div>
-                </div>
-            {% endfor %}
 
             {% block body %}{% endblock %}
 
