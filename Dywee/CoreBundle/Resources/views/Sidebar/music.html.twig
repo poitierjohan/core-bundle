@@ -83,6 +83,7 @@
         <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
+        <li><a href="{{ path('dywee_website_settings', {id: app.session.get('activeWebsite').id}) }}"><i class="fa fa-wrench"></i> Gestion du site</a></li>
         <li><a href="{{ path('dywee_product_stock_dashboard') }}"><i class="fa fa-list-alt"></i> Gestion des stocks</a></li>
         <li><a href="{{ path('dywee_deliver_table') }}"><i class="fa fa-list-alt"></i> Gestion des livreurs</a></li>
         <li><a href="{{ path('dywee_shipmentMethod_table') }}"><i class="fa fa-dollar"></i> Frais de livraison</a></li>
