@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ParameterManager
  *
- * @ORM\Table(name="parameters")
+ * @ORM\Table("websites_settings")
  * @ORM\Entity(repositoryClass="Dywee\CoreBundle\Entity\ParametersManagerRepository")
  */
 class ParametersManager
@@ -44,7 +44,7 @@ class ParametersManager
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,7 +67,7 @@ class ParametersManager
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -90,7 +90,7 @@ class ParametersManager
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {
@@ -113,7 +113,7 @@ class ParametersManager
     /**
      * Get website
      *
-     * @return \Dywee\WebsiteBundle\Entity\Website 
+     * @return \Dywee\WebsiteBundle\Entity\Website
      */
     public function getWebsite()
     {
