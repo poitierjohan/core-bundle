@@ -76,7 +76,9 @@
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
-                    {% render(controller('DyweeCoreBundle:Admin:getSidebar')) %}
+                    {% block leftSideBarContent %}
+                        {{ render(controller('DyweeCoreBundle:Admin:getSidebar')) }}
+                    {% endblock %}
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -93,7 +95,7 @@
                 </h1>
             {% endblock %}
             <ol class="breadcrumb">
-                <li><a href="{{ path('dywee_admin_homepage') }}"><i class="fa fa-home"></i> Administration</a></li>
+                <li><a href="{{ path('admin_dashboard') }}"><i class="fa fa-home"></i> Administration</a></li>
                 {% block breadcrumb %}<li class="active">Accueil</li>{% endblock %}
             </ol>
         </section>
