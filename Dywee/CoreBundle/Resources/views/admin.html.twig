@@ -490,7 +490,6 @@
 </div><!-- /.modal -->
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 <script src="{{ asset('bundles/dyweecore/js/holder.js') }}"></script>
 
@@ -511,14 +510,17 @@
 <!-- ChartJS 1.0.1 -->
 <script src="{{ asset('bundles/dyweecore/plugins/chartjs/Chart.min.js') }}"></script>
 
-<script src="{{ asset('bundles/dyweecore/plugins/pace/pace.js') }}"></script>
+{#<script src="{{ asset('bundles/dyweecore/plugins/pace/pace.js') }}"></script>#}
 
 <script src="{{ asset('bundles/dyweecore/js/imgLiquid.min.js') }}"></script>
+
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 
 {#<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>#}
 
 <script>
-    $(document).ajaxStart(function() { Pace.restart(); });
+    //$(document).ajaxStart(function() { Pace.restart(); });
 </script>
 
 {% block footerJavascript %}
