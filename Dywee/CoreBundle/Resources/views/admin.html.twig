@@ -25,6 +25,8 @@
     <link href="{{ asset('bundles/dyweecore/css/skins/_all-skins.min.css') }}" rel="stylesheet">
     <link href="{{ asset('bundles/dyweecore/css/admin.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
     {% block stylesheets %}
 
     {% endblock %}
@@ -107,24 +109,26 @@
         <section class="content">
             <!-- Info boxes -->
 
-            {% for flashMessage in app.session.flashbag.get('success') %}
-                <div class="col-md-12">
-                    <div class="alert alert-success alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-check"></i> {{ flashMessage }}</h4>
+            <div class="row">
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="col-md-12">
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <h4><i class="icon fa fa-check"></i> {{ flashMessage }}</h4>
 
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
-            {% for flashMessage in app.session.flashbag.get('warning') %}
-                <div class="col-md-12">
-                    <div class="alert alert-warning alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-warning"></i>{{ flashMessage }}</h4>
+                {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('warning') %}
+                    <div class="col-md-12">
+                        <div class="alert alert-warning alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <h4><i class="icon fa fa-warning"></i>{{ flashMessage }}</h4>
 
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
 
             {% block body %}{% endblock %}
 
@@ -514,8 +518,13 @@
 
 <script src="{{ asset('bundles/dyweecore/js/imgLiquid.min.js') }}"></script>
 
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
+
 
 {#<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>#}
 
