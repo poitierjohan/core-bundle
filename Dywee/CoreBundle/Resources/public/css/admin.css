@@ -2,23 +2,6 @@
 /* CSS Document */
 
 /**** MODIF BOOTSTRAP ****/
-header.admin { margin-bottom: 50px; }
-
-.margin-right{
-	margin-right: 15px;
-}
-
-.admin .navbar-brand{
-	font-style: italic;
-	font-size: 28px; font-weight: 200;
-	border-right: 2px solid #f4f4f4;
-	min-width: 220px;
-	text-align: center;
-}
-
-.admin .fixed-navbar{
-	width: 450px;
-}
 
 .admin .dropdown-menu .fa{
 	margin-left: -10px;
@@ -26,10 +9,6 @@ header.admin { margin-bottom: 50px; }
 }
 
 /**** STYLE GENERAL ****/
-
-#mainContent{
-	padding-top: 20px;
-}
 
 .adjust-top{
 	margin-top: 20px;
@@ -41,30 +20,6 @@ header.admin { margin-bottom: 50px; }
 
 h2 .btn{
 	margin-top: -10px;
-}
-
-#color-container{
-	width: 240px;
-}
-
-#color-container a{
-	display: block;
-	border: 1px solid #ddd;
-	margin-left: 10px;
-	margin-bottom: 10px;
-	float: left;
-	height: 30px;
-	width: 30px;
-}
-
-#color-container a:hover{
-	opacity: 0.6;
-	border: 2px;
-}
-
-#color-container a.active{
-	border: 3px;
-	opacity: 0.3;
 }
 
 
@@ -79,15 +34,6 @@ h2 .btn{
 
 .spacer{
 	height: 20px;
-}
-
-.admin h1, .admin h2, .admin h3, .admin h4, .admin h5, .admin h6, .admin .h1, .admin .h2, .admin .h3, .admin .h4, .admin .h5, .admin .h6, .admin .beautiful-text{
-	font-family: Lato,​"Helvetica Neue",​Arial,​sans-serif;
-	font-weight: 200;
-}
-
-.admin p.beautiful-text{
-	padding-top: 10px;
 }
 
 .border{
@@ -293,240 +239,6 @@ h2 .btn{
 	margin-top: 20px;
 }
 
-/* Sidebar Styles */
-
-
-
-@media(min-width:768px) {
-    #wrapper {
-        padding-left: 220px;
-    }
-
-    #wrapper.toggled {
-        padding-left: 40px;
-    }
-
-    #nav-left.admin {
-        width: 220px;
-    }
-
-    #wrapper.toggled #nav-left {
-        width: 45px;
-    }
-
-    #wrapper.toggled #nav-right {
-        position: relative;
-        margin-right: 0;
-    }
-}
-
-.design-presentation{
-	border: 1px solid #ddd;
-	padding: 8px 12px;
-	box-shadow: 3px 3px 3px #f4f4f4;
-}
-
-.design-presentation:hover{
-	margin-top: -2px;
-	margin-left: -2px;
-	background: #fcfcfc;
-	box-shadow: 5px 5px 5px #ddd;
-}
-
-.site-presentation h2{
-	font-family: Lato,​"Helvetica Neue",​Arial,​sans-serif;
-	font-weight: 200;
-	padding-bottom: 5px;
-	border-bottom: 1px solid #ddd;
-	width: 100%;
-	margin-bottom: 10px;
-}
-
-.site-presentation{
-	border-bottom: 1px solid #ddd;
-	margin-bottom: 10px;
-}
-
-.site-actions-btn .btn-block{
-	padding: 3% 0;
-	margin: 3% 0;
-}
-
-/**** XL Dropdown ****/
-
-.dropdown-xl{
-	padding: 10px 0px ! important;
-	width: 465px;
-	border-radius: 0;
-	margin-top: 0px;
-}
-
-.dropdown-xl li {
-	display: inline-block;
-	float: left;
-	padding: 0px 0px;
-}
-
-.dropdown-xl li.mega-menu-column {
-	margin-right: 20px;
-	width: 150px;
-}
-
-.dropdown-xl .nav-header {
-	padding: 0 !important;
-	margin-bottom: 10px;
-	display: inline-block;
-	width: 100%;
-	border-bottom: 1px solid #ddd;
-}
-
-.dropdown-xl img { 
-	padding-bottom: 10px;
-}
-
-/*** ON / OFF ***/
-
-.onoffswitch {
-    position: relative; width: 60px;
-	top: 5px;
-	-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-}
-.onoffswitch-checkbox {
-    display: none;
-}
-.onoffswitch-label {
-    display: block; overflow: hidden; cursor: pointer;
-    border: 1px solid #999999; border-radius: 10px;
-}
-.onoffswitch-inner {
-    display: block; width: 200%; margin-left: -100%;
-    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
-    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block; float: left; width: 50%; height: 14px; padding: 0; line-height: 15px;
-    font-size: 12px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
-    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-    content: "ON";
-    padding-left: 6px;
-    background-color: #7FD481; color: #333333;
-}
-.onoffswitch-inner:after {
-    content: "OFF";
-    padding-right: 4px;
-    background-color: #EEEEEE; color: #999999;
-    text-align: right;
-}
-.onoffswitch-switch {
-    display: block; width: 25px; margin-top: -4px;
-    background: #FFFFFF;
-    border: 1px solid #999999; border-radius: 50px;
-    position: absolute; top: 0; bottom: 0; right: 36px;
-    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
-    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
-}
-
-/*  NAVBAR MESSAGE PREVIEW */
-
-.dropdown-messages{
-	max-width: 350px;
-	overflow: hidden;
-}
-
-.messages-preview{
-	padding-top: 0px;
-}
-
-.messages-preview li a{
-	padding: 10px;
-}
-
-.messages-preview li{
-	border-bottom: 1px solid #ddd;
-}
-
-.messages-preview li:last-child{
-	border: 0px;
-}
-
-.message-reference{
-	font-size: 16px;
-	border-bottom: 1px solid #ddd;
-	margin-bottom: 10px;
-	width: 100px;
-}
-
-/*  EDIT PAGE CSS  */
-
-#mainContent.laptop{
-	width: 100%;
-	height: 800px;
-}
-
-#mainContent.tablet{
-	width: 768px;
-	height: 1024px;
-}
-
-#mainContent.horizontal-tablet{
-	width: 1024px;
-	height: 768px;
-}
-
-#mainContent.mobile{
-	width: 320px;
-	height: 480px;
-}
-
-#mainContent.horizontal-mobile{
-	width: 480px;
-	height: 320px;
-}
-
-#mainContent [aria-module="text"]:hover{
-	background-color: rgba(0,0,0,0.02);
-}
-
-.btn-ghost{
-	background-color: inherit;
-	border: 0px;
-}
-
-.btn-ghost:hover{
-	background-color: rgba(0, 0, 0, 0.02);
-}
-
-.btn-ghost-active{
-	background-color: rgba(0,0,0,0.10)
-}
-
-#dywee-panel{
-	position: absolute;
-	top: 20%;
-	right: 5%;
-	min-width: 150px;
-}
-
-.pull-left-panel-rectification{
-	padding-right: 8px;
-}
-
-#nav-right.tablet{
-	width: 230px;
-}
-
-.fa-caret-down-btn-correct{
-	top: 12px;
-}
-
 .dropdown-tasks,
 .dropdown-alerts {
 	width: 310px;
@@ -544,14 +256,9 @@ h2 .btn{
 	padding-top: 0;
 }
 
-.panel-body .fa-5x
-{
-	padding-top: 20px;
-}
-
 .actions a {
 	color: inherit;
-	margin: auto 1px;
+	margin: auto 3px;
 }
 
 .actions-right, .action-right{
@@ -574,13 +281,4 @@ h2 .btn{
 
 #page_elements_container .box-header:hover{
 	cursor: move;
-}
-
-.dywee-pageElement-placeholder{
-	margin: auto;
-	margin-bottom: 20px;
-	width: 98%;
-	height: 200px;
-	background-color: #ddd;
-	border: 1px solid #ccc;
 }

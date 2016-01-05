@@ -1,18 +1,3 @@
-.spacer{
-    height: 30px;
-}
-
-.row-centered {
-    text-align: center;
-    display: table-row;
-}
-
-.col-centered {
-   display: table-cell;
-   float: none;
-   vertical-align: top;
-}
-
 /*  event  */
 .event-preview{
     border: 1px solid #ddd;
