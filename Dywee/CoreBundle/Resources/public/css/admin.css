@@ -282,3 +282,27 @@ table a{
 .actions .fa-trash{
 	color: #dd4b39;
 }
+
+a.widget-user-username{
+	color: inherit;
+}
+
+.widget-user-header .actions-right
+{
+	margin-top: 0;
+}
+
+ul.dashboard-quick-actions li{
+	margin-bottom: 25px;
+}
+
+ul.dashboard-quick-actions i{
+	margin-top: 15px;
+	margin-bottom: 10px;
+	font-size: 30px;
+}
+
+ul.dashboard-quick-actions li a{
+	min-height: 125px;
+}
+
