@@ -1,13 +1,43 @@
 /**
  * Created by Olivier on 6/02/15.
  */
-$("#menu-toggle").click(function(e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
 
-    var request = $.ajax({
-        url: 'ajax.php?action=track_side_bar',type: 'post', dataType: 'json',
-        data: {type: ($("#wrapper").hasClass('toggled'))?'mini':'normal'}
+$(document).ready(function()
+{
+    //Gestion des boutons delete
+    $('a[data-action="ajax-delete"]').click(function(e)
+    {
+        e.preventDefault();
+        var $btn = $(this);
+        $btn.html('<i class="fa fa-spinner fa-spin"></i>');
+        var route = Routing.generate('inscription_deleteFromAjax', {id: $(this).attr('data-id') });
+
+        if (!$('#dataConfirmModal').length)
+            $('body').append('<div class="modal fade" id="dataConfirmModal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Attention!</h4></div><div class="modal-body"><p><i class="fa fa-spinner fa-spin"></i> Veuillez patienter </p></div><div class="modal-footer"><a class="btn btn-danger" id="dataConfirmOK">Supprimer</a><button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button></div></div></div></div>');
+        $('#dataConfirmModal').find('.modal-body').html('<p>Etes-vous sur de vouloir supprimer cet élément?</p><p>Cette action est irréversible.</p>');
+        $('#dataConfirmOK').click(function(e)
+        {
+            $(this).addClass('disabled').html('<i class="fa fa-spinner fa-spin"></i> Veuillez patienter');
+            $.post(route , function( data ) {
+                data = JSON.parse(data);
+                if(data.type == "success")
+                {
+                    $('#dataConfirmModal').modal('hide');
+                    $btn.closest($btn.attr('data-container')).fadeOut();
+                }
+                else {
+                    $modal = $("#dywee-modal");
+                    $modal.find('.modal-header').html('<h1>Erreur</h1>');
+                    $modal.find('.modal-body').html('<p>Une erreur est survenue pendant la suppression</p><p>Veuillez contacter un administrateur</p>');
+                    $btn = $('<button type="button" class="btn btn-default">Fermer</button>');
+                    $modal.find('.modal-footer').html($btn);
+                    $modal.modal('show');
+                }
+            });
+        });
+        $('#dataConfirmModal').modal({show:true});
+        return false;
+
+
     });
-
 });
