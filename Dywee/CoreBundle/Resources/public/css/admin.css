@@ -62,3 +62,8 @@ ul.dashboard-quick-actions li a{
 	width: 100%;
 	margin-bottom: 10px;
 }
+
+.label-default a{
+	color: #888;
+	margin-left: 3px;
+}
