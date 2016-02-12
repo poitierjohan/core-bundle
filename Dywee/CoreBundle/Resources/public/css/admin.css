@@ -67,3 +67,7 @@ ul.dashboard-quick-actions li a{
 	color: #888;
 	margin-left: 3px;
 }
+
+.btn-success.btn-box-tool{
+	color: #fff;
+}
