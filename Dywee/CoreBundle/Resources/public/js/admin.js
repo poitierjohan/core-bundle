@@ -2,9 +2,8 @@
  * Created by Olivier on 6/02/15.
  */
 
-$(document).ready(function()
+function dywee_handle_delete_btn()
 {
-    //Gestion des boutons delete
     $('a[data-action="ajax-delete"]').click(function(e)
     {
         e.preventDefault();
@@ -14,7 +13,13 @@ $(document).ready(function()
 
         if (!$('#dataConfirmModal').length)
             $('body').append('<div class="modal fade" id="dataConfirmModal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Attention!</h4></div><div class="modal-body"><p><i class="fa fa-spinner fa-spin"></i> Veuillez patienter </p></div><div class="modal-footer"><a class="btn btn-danger" id="dataConfirmOK">Supprimer</a><button type="button" class="btn btn-default" data-dismiss="modal" id="dataConfirmAboard">Annuler</button></div></div></div></div>');
-        $('#dataConfirmModal').find('.modal-body').html('<p>Etes-vous sur de vouloir supprimer cet élément?</p><p>Sera supprimé : ' + $(this).attr('data-text') + '</p><p>Cette action est irréversible.</p>');
+
+        var content = '<p>Etes-vous sur de vouloir supprimer cet élément?</p>';
+        var element = $(this).attr('data-text');
+        if(element != "")
+            content += '<p>Sera supprimé : <b>' + element + '</b></p>';
+        content += '<p>Cette action est irréversible.</p>'
+        $('#dataConfirmModal').find('.modal-body').html(content);
 
         $('#dataConfirmAboard').click(function(){
             $btn.html('<i class="fa fa-trash"></i>');
@@ -48,4 +53,16 @@ $(document).ready(function()
 
 
     });
+}
+
+function dywee_reset_handler(handler)
+{
+    if(handler == 'delete_button')
+        dywee_handle_delete_btn();
+}
+
+$(document).ready(function()
+{
+    //Gestion des boutons delete
+    dywee_handle_delete_btn();
 });
