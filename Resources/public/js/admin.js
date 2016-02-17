@@ -147,7 +147,7 @@ function dywee_handle_delete_btn()
                 }
             });
         });
-        $confirmModal.modal('show');
+        $confirmModal.modal({show:true});
         return false;
 
 
