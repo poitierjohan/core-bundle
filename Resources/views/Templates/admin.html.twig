@@ -76,6 +76,7 @@
                     </div>
                 </div>
                 <!-- search form -->
+                {% block searchForm %}
                 <form class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control" placeholder="Rechercher..."/>
@@ -84,6 +85,7 @@
                   </span>
                     </div>
                 </form>
+                {% endblock %}
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
@@ -98,6 +100,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
+        {% block pageHeader %}
         <section class="content-header">
             {% block pageTitle %}
                 <h1>
@@ -105,11 +108,14 @@
                     <small>Version 2.0</small>
                 </h1>
             {% endblock %}
+            {% block breadcrumb %}
             <ol class="breadcrumb">
                 <li><a href="{{ path('admin_dashboard') }}"><i class="fa fa-home"></i> Administration</a></li>
-                {% block breadcrumb %}<li class="active">Accueil</li>{% endblock %}
+                {% block breadcrumbLvl1 %}<li class="active">Accueil</li>{% endblock %}
             </ol>
+            {% endblock %}
         </section>
+        {% endblock %}
 
         <!-- Main content -->
         <section class="content">
@@ -307,7 +313,7 @@
 
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 2.3.0
+            <b>Version</b> {% block versionNumber %}2.3.0{% endblock %}
         </div>
         <strong>Copyright &copy; 2014-2015 Dywee. Admin Design by <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> Tous droits réservés.
     </footer>
