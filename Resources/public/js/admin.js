@@ -76,6 +76,8 @@ function dywee_handle_form_collection(container, userConfig) {
 
         // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
         index++;
+
+        $('.select2').select2();
     }
 
     // La fonction qui ajoute un lien de suppression d'une catégorie
@@ -93,10 +95,11 @@ function dywee_handle_form_collection(container, userConfig) {
             return false;
         });
     }
+
+    $('.select2').select2();
 }
 
-function dywee_handle_delete_btn()
-{
+function dywee_handle_delete_btn() {
     $('[data-action="ajax-delete"]').unbind('click').click(function(e)
     {
         e.preventDefault();
@@ -155,14 +158,12 @@ function dywee_handle_delete_btn()
     });
 }
 
-function dywee_reset_handler(handler)
-{
+function dywee_reset_handler(handler) {
     if(handler == 'delete_button')
         dywee_handle_delete_btn();
 }
 
-$(document).ready(function()
-{
+$(document).ready(function() {
     //Gestion des boutons delete
     dywee_handle_delete_btn();
 });
