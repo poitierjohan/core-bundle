@@ -2,13 +2,11 @@
  * Created by Olivier on 6/02/15.
  */
 
-function dywee_handle_form_collection(container)
-{
+function dywee_handle_form_collection(container) {
     dywee_handle_form_collection(container, null);
 }
 
-function dywee_handle_form_collection(container, userConfig)
-{
+function dywee_handle_form_collection(container, userConfig) {
     console.log(userConfig);
     var config = {
         container_type: 'div',
@@ -111,7 +109,10 @@ function dywee_handle_delete_btn()
         var $confirmModal = $('#dataConfirmModal');
 
         if (!$confirmModal.length)
-            $('body').append('<div class="modal fade" id="dataConfirmModal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Attention!</h4></div><div class="modal-body"><p><i class="fa fa-spinner fa-spin"></i> Veuillez patienter </p></div><div class="modal-footer"><a class="btn btn-danger" id="dataConfirmOK">Supprimer</a><button type="button" class="btn btn-default" data-dismiss="modal" id="dataConfirmAboard">Annuler</button></div></div></div></div>');
+        {
+            $confirmModal = $('<div class="modal fade" id="dataConfirmModal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Attention!</h4></div><div class="modal-body"><p><i class="fa fa-spinner fa-spin"></i> Veuillez patienter </p></div><div class="modal-footer"><a class="btn btn-danger" id="dataConfirmOK">Supprimer</a><button type="button" class="btn btn-default" data-dismiss="modal" id="dataConfirmAboard">Annuler</button></div></div></div></div>');
+            $('body').append($confirmModal);
+        }
 
         var content = '<p>Etes-vous sur de vouloir supprimer cet élément?</p>';
         var element = $(this).attr('data-text');
