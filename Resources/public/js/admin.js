@@ -166,4 +166,5 @@ function dywee_reset_handler(handler) {
 $(document).ready(function() {
     //Gestion des boutons delete
     dywee_handle_delete_btn();
+    $('.select2').select2();
 });
