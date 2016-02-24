@@ -99,6 +99,8 @@ class ParentController extends Controller
     //Créer/gère le formulaire + ajout/modif dans la BDD
     protected function handleForm($object, Request $request, $parameters = null)
     {
+        $new = !is_numeric($object->getId());
+
         $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
         $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityName;
 
@@ -253,5 +255,15 @@ class ParentController extends Controller
     public function tableActionsHelper()
     {
 
+    }
+
+    public function getWebsite($id = null)
+    {
+        $websiteRepository = $this->getDoctrine()->getRepository('DyweeWebsiteBundle:Academy');
+        $websiteId = $id ? $id : $this->get('session')->get('activeWebsiteId');
+        if($websiteId)
+            return $websiteRepository->findOneById($websiteId);
+
+        else throw $this->createNotFoundException('Erreur dans la récupération du site internet');
     }
 }
