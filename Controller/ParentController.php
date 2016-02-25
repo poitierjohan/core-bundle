@@ -32,7 +32,7 @@ class ParentController extends Controller
 
     public function __construct()
     {
-        $this->repositoryName = $this->bundleName.':'.$this->entityName;
+        $this->repositoryName = str_replace('\\', '', $this->bundleName).':'.$this->entityName;
     }
 
     public function getEntityNameSpace()
@@ -141,9 +141,9 @@ class ParentController extends Controller
         $viewFolder = isset($parameters['viewFolderName']) ? $parameters['viewFolderName'] : $entityName;
 
         if($new)
-            return $this->render($bundleName.':'.$viewFolder.':add.html.twig', ['form' => $form->createView()]);
+            return $this->handleView(array('view' => 'add', 'data' => array('form' => $form->createView())));
         else
-            return $this->render($bundleName.':'.$viewFolder.':edit.html.twig', ['form' => $form->createView()]);
+            return $this->handleView(array('view' => 'edit', 'data' => array('form' => $form->createView())));
     }
 
     public function tableFromParentAction($id, $parameters = null)
@@ -220,14 +220,16 @@ class ParentController extends Controller
 
     public function handleView($mainParameters, $parameters = null)
     {
-        $parentPath = isset($parameters['viewFolder']) ? $this->bundleName.':'.$parameters['viewFolder'] : $this->repositoryName;
+        $parentPath = isset($parameters['viewFolder']) ? $this->bundleName.':'.$parameters['viewFolder'] : str_replace('\\', '', $this->repositoryName);
         $fileName = isset($mainParameters['view']) ? $mainParameters['view'] : 'dashboard';
+
         $data =
             array_merge(
                 isset($mainParameters['data']) ? $mainParameters['data'] : array(),
                 isset($parameters['add_data']) ? $parameters['add_data'] : array()
             )
         ;
+
         return $this->render($parentPath.':'.$fileName.'.html.twig', $data);
     }
 
