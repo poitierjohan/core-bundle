@@ -71,3 +71,16 @@ ul.dashboard-quick-actions li a{
 .btn-success.btn-box-tool{
 	color: #fff;
 }
+
+.btn-metro{
+	height: 110px;
+	margin-bottom: 20px;
+	border-radius: 0;
+	padding-top: 10px;
+	width: 100%;
+	font-size: 16px;
+}
+
+.btn-metro i.fa{
+	font-size: 42px;
+}
