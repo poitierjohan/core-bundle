@@ -107,7 +107,9 @@ function dywee_handle_delete_btn() {
         var btn_text = $btn.html();
 
         $btn.html('<i class="fa fa-spinner fa-spin"></i>');
-        var route = Routing.generate($(this).attr('data-route'), {id: $(this).attr('data-id') });
+        var route = ($(this).attr('data-route')) ? Routing.generate($(this).attr('data-route'), {id: $(this).attr('data-id') }) : $(this).attr('href');
+
+        console.log(route);
 
         var $confirmModal = $('#dataConfirmModal');
 
