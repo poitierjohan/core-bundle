@@ -138,6 +138,14 @@
                         </div>
                     </div>
                 {% endfor %}
+                {% for flashMessage in app.session.flashbag.get('danger') %}
+                    <div class="col-md-12">
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="icon fa fa-exclamation-triangle"></i>{{ flashMessage }}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
 
             {% block body %}{% endblock %}
@@ -490,10 +498,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Modal title</h4>
+                <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <p>One fine body&hellip;</p>
+                <p><i class="fa fa-spinner fa-spin"></i> Chargement en cours...</p>
             </div>
             <div class="modal-footer">
                 <button type="button" id="dyweeModalCloseBtn" class="btn btn-default" data-dismiss="modal">Close</button>
