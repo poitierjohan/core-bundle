@@ -3,6 +3,7 @@
 namespace Dywee\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
@@ -13,10 +14,10 @@ class SeoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('metaTitle',          'text',     array('required' => false))
-        ->add('metaDescription',    'textarea', array('required' => false))
-        ->add('metaKeywords',       'textarea', array('required' => false))
-        ->add('seoUrl',             'text',     array('required' => false));
+        ->add('metaTitle',          null,     array('required' => false))
+        ->add('metaDescription',    TextareaType::class, array('required' => false))
+        ->add('metaKeywords',       TextareaType::class, array('required' => false))
+        ->add('seoUrl',             null,     array('required' => false));
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
             $entity = $event->getData();
