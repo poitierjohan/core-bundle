@@ -42,7 +42,14 @@ class ParentController extends Controller
 
     public function viewAction($id, $parameters = null)
     {
-        $object = $this->getFromId($id);
+        $object = null;
+        if(isset($parameters['repository_method']))
+        {
+            $repository = $this->getDoctrine()->getRepository($this->repositoryName);
+            $method = $parameters['repository_method'];
+            $object = $repository->$method($id);
+        }
+        else $object = $this->getFromId($id);
 
         return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityName) => $object)), $parameters);
     }
@@ -89,11 +96,9 @@ class ParentController extends Controller
         return $this->handleForm(new $entityName(), $request, $parameters);
     }
 
-    public function updateAction($id, Request $request, $parameters = null)
+    public function updateAction($object, Request $request, $parameters = null)
     {
-        $object = $this->getFromId($id);
-
-        return $this->handleForm($object, $request, $parameters);
+        return $this->handleForm(is_numeric($object) ? $this->getFromId($object) : $object, $request, $parameters);
     }
 
     //Créer/gère le formulaire + ajout/modif dans la BDD
@@ -131,6 +136,8 @@ class ParentController extends Controller
 
                 return $this->redirect($this->generateUrl($parameters['redirectTo'], isset($parameters['routingArgs']) ? $parameters['routingArgs'] : null));
             }
+            elseif(isset($parameters['return']) && $parameters['return'] == 'bool')
+                return true;
 
             if (method_exists($object, 'getParentEntity') && $object->getParentEntity()->getId())
                 return $this->redirect($this->generateUrl($this->tableViewName, array('id' => $object->getParentEntity()->getId())));
