@@ -80,10 +80,10 @@ class ParentController extends Controller
     {
         $repositoryMethod = isset($parameters['repositoryMethod']) ? $parameters['repositoryMethod'] : 'findBy';
         $findBy = $parameters['findBy'] ? $parameters['findBy'] : array();
-        $orderBy = $parameters['orderBy'] ? $parameters['orderBy'] : array();
+        $orderBy = $parameters['orderBy'] ? $parameters['orderBy'] : null;
 
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
-        $items = $repository->findBy($findBy, $orderBy);
+        $items = $repository->repositoryMethod($findBy, $orderBy);
 
         //var_dump($items);
         return $items;
