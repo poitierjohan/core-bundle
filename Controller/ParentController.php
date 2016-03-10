@@ -84,7 +84,7 @@ class ParentController extends Controller
 
         if(isset($parameters['repository_argument']))
             $items = $repository->$repositoryMethod($parameters['repository_argument']);
-        else $repository->$repositoryMethod();
+        else $items = $repository->$repositoryMethod();
 
         //var_dump($items);
         return $items;
