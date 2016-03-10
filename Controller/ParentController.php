@@ -78,11 +78,13 @@ class ParentController extends Controller
 
     private function getList($parameters)
     {
-        $repositoryMethod = isset($parameters['repositoryMethod']) ? $parameters['repositoryMethod'] : 'findBy';
-        $findBy = $parameters['findBy'] ? $parameters['findBy'] : array();
+        $repositoryMethod = isset($parameters['repository_method']) ? $parameters['repository_method'] : 'findAll';
 
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
-        $items = $repository->$repositoryMethod($findBy);
+
+        if(isset($parameters['repository_argument']))
+            $items = $repository->$repositoryMethod($parameters['repository_argument']);
+        else $repository->$repositoryMethod();
 
         //var_dump($items);
         return $items;
