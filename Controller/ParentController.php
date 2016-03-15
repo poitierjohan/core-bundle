@@ -84,7 +84,7 @@ class ParentController extends Controller
 
         if(isset($parameters['repository_argument']))
             $items = $repository->$repositoryMethod($parameters['repository_argument']);
-        else $items = $repository->$repositoryMethod();
+        else $repository->$repositoryMethod();
 
         //var_dump($items);
         return $items;
@@ -109,11 +109,10 @@ class ParentController extends Controller
 
         $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
         $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityName;
-
         $type = $bundleName.'\Form\\'.$entityName.'Type';
 
-        $form = $this->get('form.factory')->createBuilder($type, $object)->getForm();
 
+        $form = isset($parameters['form']) ? $parameters['form'] : $this->get('form.factory')->createBuilder($type, $object)->getForm();
 
         if ($form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
