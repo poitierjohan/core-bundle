@@ -42,7 +42,14 @@ abstract class ParentController extends Controller
 
     public function viewAction($id, $parameters = null)
     {
-        $object = $this->getFromId($id);
+        $object = null;
+        if(isset($parameters['repository_method']))
+        {
+            $repository = $this->getDoctrine()->getRepository($this->repositoryName);
+            $method = $parameters['repository_method'];
+            $object = $repository->$method($id);
+        }
+        else $object = $this->getFromId($id);
 
         return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityName) => $object)), $parameters);
     }
@@ -71,12 +78,13 @@ abstract class ParentController extends Controller
 
     private function getList($parameters)
     {
-        $repositoryMethod = isset($parameters['repositoryMethod']) ? $parameters['repositoryMethod'] : 'findBy';
-        $findBy = $parameters['findBy'] ? $parameters['findBy'] : array();
-        $orderBy = $parameters['orderBy'] ? $parameters['orderBy'] : array();
+        $repositoryMethod = isset($parameters['repository_method']) ? $parameters['repository_method'] : 'findAll';
 
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
-        $items = $repository->findBy($findBy, $orderBy);
+
+        if(isset($parameters['repository_argument']))
+            $items = $repository->$repositoryMethod($parameters['repository_argument']);
+        else $repository->$repositoryMethod();
 
         //var_dump($items);
         return $items;
@@ -91,9 +99,7 @@ abstract class ParentController extends Controller
 
     public function updateAction($id, Request $request, $parameters = null)
     {
-        $object = $this->getFromId($id);
-
-        return $this->handleForm($object, $request, $parameters);
+        return $this->handleForm(is_numeric($id) ? $this->getFromId($id) : $id, $request, $parameters);
     }
 
     //Créer/gère le formulaire + ajout/modif dans la BDD
@@ -103,11 +109,10 @@ abstract class ParentController extends Controller
 
         $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
         $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityName;
-
         $type = $bundleName.'\Form\\'.$entityName.'Type';
 
-        $form = $this->get('form.factory')->createBuilder($type, $object)->getForm();
 
+        $form = isset($parameters['form']) ? $parameters['form'] : $this->get('form.factory')->createBuilder($type, $object)->getForm();
 
         if ($form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -131,6 +136,8 @@ abstract class ParentController extends Controller
 
                 return $this->redirect($this->generateUrl($parameters['redirectTo'], isset($parameters['routingArgs']) ? $parameters['routingArgs'] : null));
             }
+            elseif(isset($parameters['return']) && $parameters['return'] == 'bool')
+                return true;
 
             if (method_exists($object, 'getParentEntity') && $object->getParentEntity()->getId())
                 return $this->redirect($this->generateUrl($this->tableViewName, array('id' => $object->getParentEntity()->getId())));
