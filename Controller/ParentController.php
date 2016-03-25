@@ -25,7 +25,7 @@ trait Referer {
 }
 
 
-class ParentController extends Controller
+abstract class ParentController extends Controller
 {
     use Referer;
     private $repositoryName;
