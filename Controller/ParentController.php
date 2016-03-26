@@ -82,12 +82,7 @@ abstract class ParentController extends Controller
 
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
 
-        if(isset($parameters['repository_argument']))
-            $items = $repository->$repositoryMethod($parameters['repository_argument']);
-        else $repository->$repositoryMethod();
-
-        //var_dump($items);
-        return $items;
+        return (isset($parameters['repository_argument'])) ? $repository->$repositoryMethod($parameters['repository_argument']): $repository->$repositoryMethod();
     }
 
     public function addAction(Request $request, $parameters = null)
