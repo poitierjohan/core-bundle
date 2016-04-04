@@ -68,17 +68,15 @@ ul.dashboard-quick-actions li a{
 	color: #fff;
 }
 
-.btn-metro{
-	height: 110px;
-	margin-bottom: 20px;
-	border-radius: 0;
-	padding-top: 10px;
-	width: 100%;
-	font-size: 16px;
+.btn-app{
+	width: 30%;
+	min-height: 80px;
+	font-size: 14px;
 }
 
-.btn-metro i.fa{
-	font-size: 42px;
+.btn-app i.fa{
+	font-size: 24px;
+	margin-bottom: 7px;
 }
 
 .logo-lg img{
@@ -87,7 +85,7 @@ ul.dashboard-quick-actions li a{
 }
 
 .course-teacher-box .box{
-	height: 260px;
+	min-height: 280px;
 }
 
 @media (min-height: 768px) {
