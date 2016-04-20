@@ -106,7 +106,6 @@ abstract class ParentController extends Controller
         $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityName;
         $type = $bundleName.'\Form\\'.$entityName.'Type';
 
-
         $form = isset($parameters['form']) ? $parameters['form'] : $this->get('form.factory')->createBuilder($type, $object)->getForm();
 
         if ($form->handleRequest($request)->isValid()) {

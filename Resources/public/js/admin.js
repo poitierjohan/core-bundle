@@ -7,7 +7,6 @@ function dywee_handle_form_collection(container) {
 }
 
 function dywee_handle_form_collection(container, userConfig) {
-    console.log(userConfig);
     var config = {
         container_type: 'div',
         label: 'Element',
@@ -31,6 +30,8 @@ function dywee_handle_form_collection(container, userConfig) {
     });
 
     var $container = $(config.container_type+'#'+container);
+
+    console.log($container);
 
     // On ajoute un lien pour ajouter une nouvelle catégorie
     if(config.allow_add == true)
