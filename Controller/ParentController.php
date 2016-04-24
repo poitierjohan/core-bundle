@@ -106,8 +106,12 @@ abstract class ParentController extends Controller
         $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityName;
         $type = $bundleName.'\Form\\'.$entityName.'Type';
 
-        $form = isset($parameters['form']) ? $parameters['form'] : $this->get('form.factory')->createBuilder($type, $object)->getForm();
+        $formBuilder = isset($parameters['form']) ? $parameters['form'] : $this->get('form.factory')->createBuilder($type, $object);
 
+        if (isset($parameters["formAction"]))
+            $formBuilder->setAction($parameters['formAction']);
+
+        $form = $formBuilder->getForm();
         if ($form->handleRequest($request)->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
