@@ -137,7 +137,7 @@ function dywee_handle_delete_btn() {
             $confirmBtn.addClass('disabled').html('<i class="fa fa-spinner fa-spin"></i> Veuillez patienter');
             $.post(route , function( data ) {
                 data = JSON.parse(data);
-                if(data.type == "success")
+                if(data.type == "success" || data.status =='success')
                 {
                     $('#dataConfirmModal').modal('hide');
                     $confirmBtn.removeClass('disabled').html('Supprimer');
