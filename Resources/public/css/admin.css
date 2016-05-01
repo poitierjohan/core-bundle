@@ -68,16 +68,17 @@ ul.dashboard-quick-actions li a{
 	color: #fff;
 }
 
-.btn-app{
+.btn-app-dashboard{
 	width: 30%;
 	min-height: 80px;
 	font-size: 14px;
 }
 
-.btn-app i.fa{
+.btn-app-dashboard i.fa{
 	font-size: 24px;
 	margin-bottom: 7px;
 }
+
 
 .logo-lg img{
 	margin-right: 10px;
