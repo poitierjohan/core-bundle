@@ -113,7 +113,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     {% block leftSideBarContent %}
-                        {{ render(controller('DyweeCoreBundle:Admin:getSidebar')) }}
+                        {{ render(controller('DyweeCoreBundle:Core:sidebar')) }}
                     {% endblock %}
                 </ul>
             </section>
@@ -520,7 +520,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {#<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">

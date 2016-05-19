@@ -8,6 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CoreController extends Controller
 {
+    public function sidebarAction()
+    {
+        $activeWebsite = $this->get('session')->get('activeWebsite');
+
+        if($activeWebsite->getType() == 'commerce')
+            return $this->render('DyweeCoreBundle:Sidebar:commerce.html.twig');
+        else if($activeWebsite->getType() == 'music')
+            return $this->render('DyweeCoreBundle:Sidebar:music.html.twig');
+        else return $this->render('DyweeCoreBundle:Sidebar:main.html.twig');
+    }
+
     public function indexAction()
     {
         return $this->redirect($this->generateUrl('dywee_cms_homepage'));

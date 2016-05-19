@@ -122,7 +122,7 @@ function dywee_handle_delete_btn() {
 
         var content = '<p>Etes-vous sur de vouloir supprimer cet élément?</p>';
         var element = $(this).attr('data-text');
-        if(element != "")
+        if(typeof(element) != 'undefined' && element != "")
             content += '<p>(Sera supprimé: <b>' + element + '</b>)</p>';
         content += '<p>Cette action est irréversible.</p>'
         $confirmModal.find('.modal-body').html(content);
