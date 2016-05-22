@@ -45,7 +45,7 @@ class InstallController extends Controller
         return $this->redirect($this->generateUrl('dywee_cms_homepage'));
     }
 
-    public function installCMSAction($callback = null, $website)
+    public function installCMSAction($callback = null)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -62,10 +62,6 @@ class InstallController extends Controller
         $page->setContent('<p>Site en construction, restez à l\'écoute</p>');
         $page->setInMenu(true);
         $page->setActive(true);
-
-        $website = $em->getRepository('DyweeWebsiteBundle:Website')->findOneById($this->container->getParameter('website.id'));
-
-        $page->setWebsite($website);
 
         $em->persist($page);
         $em->flush();

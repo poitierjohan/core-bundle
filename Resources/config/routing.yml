@@ -25,3 +25,7 @@ dywee_install:
 dywee_admin_settings:
     path:     /admin6833/settings
     defaults: { _controller: DyweeCoreBundle:Admin:settings }
+
+dywee_admin_homepage:
+    path:     /admin
+    defaults: { _controller: DyweeCoreBundle:Core:fakeRoute }

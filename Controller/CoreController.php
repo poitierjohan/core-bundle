@@ -8,6 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CoreController extends Controller
 {
+    public function fakeRouteAction()
+    {
+        return new Response('fake route');
+    }
+
+
     public function sidebarAction()
     {
         $activeWebsite = $this->get('session')->get('activeWebsite');
