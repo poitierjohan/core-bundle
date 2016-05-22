@@ -18,10 +18,14 @@ class CoreController extends Controller
     {
         $activeWebsite = $this->get('session')->get('activeWebsite');
 
-        if($activeWebsite->getType() == 'commerce')
-            return $this->render('DyweeCoreBundle:Sidebar:commerce.html.twig');
-        else if($activeWebsite->getType() == 'music')
-            return $this->render('DyweeCoreBundle:Sidebar:music.html.twig');
+        if($activeWebsite)
+        {
+            if($activeWebsite->getType() == 'commerce')
+                return $this->render('DyweeCoreBundle:Sidebar:commerce.html.twig');
+            else if($activeWebsite->getType() == 'music')
+                return $this->render('DyweeCoreBundle:Sidebar:music.html.twig');
+            else return $this->render('DyweeCoreBundle:Sidebar:main.html.twig');
+        }
         else return $this->render('DyweeCoreBundle:Sidebar:main.html.twig');
     }
 

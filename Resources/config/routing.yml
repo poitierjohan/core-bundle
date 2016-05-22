@@ -29,3 +29,7 @@ dywee_admin_settings:
 dywee_admin_homepage:
     path:     /admin
     defaults: { _controller: DyweeCoreBundle:Core:fakeRoute }
+
+admin_dashboard:
+    path:     /admin
+    defaults: { _controller: DyweeCoreBundle:Core:fakeRoute }
