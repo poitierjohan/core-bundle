@@ -40,6 +40,6 @@ class SeoType extends AbstractType
 
     public function getName()
     {
-        return 'location';
+        return 'seo';
     }
 }
