@@ -3,6 +3,10 @@
 
 /**** STYLE GENERAL ****/
 
+.spacer{
+	height: 20px;
+}
+
 .actions a {
 	color: inherit;
 	margin: auto 3px;
