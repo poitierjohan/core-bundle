@@ -28,16 +28,31 @@ trait Referer {
 abstract class ParentController extends Controller
 {
     use Referer;
-    private $repositoryName;
+    protected $repositoryName;
+    protected $classNameWithNamespace;
+    protected $className;
+    protected $bundleName;
 
     public function __construct()
     {
-        $this->repositoryName = str_replace('\\', '', $this->bundleName).':'.$this->entityName;
+
+        $this->classNameWithNamespace = str_replace('\\\\', '\Entity\\', str_replace(array('Controller'), '', get_class($this)));
+        $exploded = explode('\\', $this->classNameWithNamespace);
+        $this->className = $exploded[count($exploded)-1];
+        $this->bundleName = '';
+        foreach($exploded as $element)
+        {
+            if($element == 'Entity')
+                break;
+            $this->bundleName .= $element;
+        }
+
+        $this->repositoryName = str_replace('\\', '', $this->bundleName).':'.$this->className;
     }
 
     public function getEntityNameSpace()
     {
-        return $this->bundleName.'\Entity\\'.$this->entityName;
+        return $this->classNameWithNamespace;
     }
 
     public function viewAction($id, $parameters = null)
@@ -51,15 +66,21 @@ abstract class ParentController extends Controller
         }
         else $object = $this->getFromId($id);
 
-        return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityName) => $object)), $parameters);
+        return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->className) => $object)), $parameters);
     }
 
     public function tableAction($parameters = null)
     {
+        $listName = strtolower($this->className);
+
+        if(substr($listName, -1) == 'y')
+            $listName = substr($listName, 0, -1).'ies';
+        else $listName .= 's';
+
         return $this->handleView(array(
             'view' => 'table',
             'data' => array(
-                lcfirst($this->entityName).'List' => $this->getList($parameters)
+                $listName => $this->getList($parameters)
             )),
             $parameters
         );
@@ -70,7 +91,7 @@ abstract class ParentController extends Controller
         return $this->handleView(array(
             'view' => 'dashboard',
             'data' => array(
-                lcfirst($this->entityName).'List' => $this->getList($parameters)
+                lcfirst($this->className).'List' => $this->getList($parameters)
             )),
             $parameters
         );
@@ -87,7 +108,7 @@ abstract class ParentController extends Controller
 
     public function addAction(Request $request, $parameters = null)
     {
-        $entityName = $this->getEntityNameSpace();
+        $entityName = $this->classNameWithNamespace;
 
         return $this->handleForm(new $entityName(), $request, $parameters);
     }
@@ -102,8 +123,8 @@ abstract class ParentController extends Controller
     {
         $new = !is_numeric($object->getId());
 
-        $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
-        $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityName;
+        $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : str_replace('Dywee', 'Dywee\\', $this->bundleName);
+        $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->className;
         $type = $bundleName.'\Form\\'.$entityName.'Type';
 
         $formBuilder = isset($parameters['form']) ? $parameters['form'] : $this->get('form.factory')->createBuilder($type, $object);
@@ -165,16 +186,24 @@ abstract class ParentController extends Controller
         //On récupère la liste des entités enfants à partir de l'entité parente
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
 
-        if($this->entityName == $explodedNameSpace[2])
+        if($this->className == $explodedNameSpace[2])
             $methodName = 'findByParent';
         else $methodName = 'findBy'.$explodedNameSpace[2];
 
         $items = $repository->$methodName($parentEntity);
 
+        $listName = lcfirst($explodedNameSpace[2]);
+
+        if(substr($listName, -1) == 'y')
+            $listName = substr($listName, 0, -1).'ies';
+        else $listName .= 's';
+
+        var_dump($listName); exit;
+
         return $this->handleView(array(
             'view' => 'table',
             'data' => array(
-                lcfirst($explodedNameSpace[2]) => $parentEntity
+                $listName => $parentEntity
             )),
             $parameters
         );
@@ -191,7 +220,7 @@ abstract class ParentController extends Controller
         $parentEntity = $parentRepository->findOneById($id);
 
         //On set l'entité parente dans l'entité à ajouter
-        if($this->entityName == $explodedNameSpace[2])
+        if($this->className == $explodedNameSpace[2])
             $methodParentName = 'setParent';
         else $methodParentName = 'set'.$explodedNameSpace[2];
 
@@ -262,15 +291,5 @@ abstract class ParentController extends Controller
     public function tableActionsHelper()
     {
 
-    }
-
-    public function getWebsite($id = null)
-    {
-        $websiteRepository = $this->getDoctrine()->getRepository('DyweeWebsiteBundle:Academy');
-        $websiteId = $id ? $id : $this->get('session')->get('activeWebsiteId');
-        if($websiteId)
-            return $websiteRepository->findOneById($websiteId);
-
-        else throw $this->createNotFoundException('Erreur dans la récupération du site internet');
     }
 }
