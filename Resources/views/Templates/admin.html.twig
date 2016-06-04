@@ -572,6 +572,14 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.17/angular2.min.js"></script>
 
+
+<script src="{{ asset('bundles/dyweecore/js/plugins/canvas-to-blob.min.js') }}"></script>
+<!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
+     This must be loaded before fileinput.min.js -->
+<script src="{{ asset('bundles/dyweecore/js/plugins/sortable.min.js') }}"></script>
+<!-- the main fileinput plugin file -->
+<script src="{{ asset('bundles/dyweecore/js/fileinput.min.js') }}"></script>
+
 {#<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>#}
 
 <script>
