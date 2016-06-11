@@ -93,6 +93,8 @@ ul.dashboard-quick-actions li a{
 	min-height: 280px;
 }
 
-@media (min-height: 768px) {
-
+.cke_editable_inline{
+	border: 1px dashed grey;
+	min-height: 100px;
+	background-color: #f2f5f8;
 }

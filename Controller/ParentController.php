@@ -143,7 +143,7 @@ abstract class ParentController extends Controller
             $em->persist($object);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->set('success', $this->publicName . ' correctement ' . ($new ? 'ajouté' : 'modifié'));
+            $request->getSession()->getFlashBag()->set('success', 'Element correctement ' . ($new ? 'ajouté' : 'modifié'));
 
             if(isset($parameters['redirectTo']))
             {
