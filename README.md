@@ -6,7 +6,7 @@ A simple bundle to handle other Dywee bundles. Add interesting functionnalities 
 - ParentController to rule them all
 - Js form collection type handling
 - Data Preload for remote modal 
-- The awesome admin lte template
+- The awesome Admin LTE template
 
 ##Installing
 
@@ -54,17 +54,21 @@ Just extend the 'DyweeCoreBundle:Templates:admin.html.twig' template from your t
 
 the core bundle is providing 2 ways to handle collections in forms, based on jQuery.
 
-The easiest way to handle a collection is using the dywee_handle_form_collection(container_id) function (without any '#'):
+The easiest way to handle a collection is using the dywee_handle_form_collection(collection_container_id) function (without any '#'):
 
 ```javascript
-dywee_handle_form_collection('my_collection_id')
+<script>
+dywee_handle_form_collection('my_collection_id');
+</script>
 ```
 and it's all yu have to do.
 
 For more flexibility, we add another method, to customize a little bit what is happening when you handle a form collection.
 
 ```javascript
-dywee_handle_form_collection(container, userConfig) 
+<script>
+dywee_handle_form_collection(collection_container_id, userConfig);
+</script>
 ```
 
 with
