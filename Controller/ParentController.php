@@ -71,7 +71,7 @@ abstract class ParentController extends Controller
 
     public function tableAction($parameters = null)
     {
-        $listName = strtolower($this->className);
+        $listName = lcfirst($this->className);
 
         if(substr($listName, -1) == 'y')
             $listName = substr($listName, 0, -1).'ies';
@@ -197,8 +197,6 @@ abstract class ParentController extends Controller
         if(substr($listName, -1) == 'y')
             $listName = substr($listName, 0, -1).'ies';
         else $listName .= 's';
-
-        var_dump($listName); exit;
 
         return $this->handleView(array(
             'view' => 'table',
