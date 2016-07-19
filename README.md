@@ -67,14 +67,14 @@ For more flexibility, we add another method, to customize a little bit what is h
 
 ```javascript
 <script>
-dywee_handle_form_collection(collection_container_id, userConfig);
+dywee_handle_form_collection(collection_container_id, personnalConfig);
 </script>
 ```
 
 with
 
 ```javascript
-var config = {
+var personnalConfig = {
     container_type: 'div',
     label: 'Element',
     allow_add: true,
