@@ -71,9 +71,10 @@ dywee_handle_form_collection(collection_container_id, personnalConfig);
 </script>
 ```
 
-with
+like this :
 
 ```javascript
+<script>
 var personnalConfig = {
     container_type: 'div',
     label: 'Element',
@@ -90,4 +91,6 @@ var personnalConfig = {
         text: 'Supprimer'
     }
 };
+dywee_handle_form_collection(collection_container_id, personnalConfig);
+</script>
 ```
