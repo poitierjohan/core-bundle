@@ -77,18 +77,20 @@ like this :
 <script>
 var personnalConfig = {
     container_type: 'div',
-    label: 'Element',
+    label: 'My element',
     allow_add: true,
     allow_delete: true,
     add_btn: {
+        target: '.action-add',
         'class': 'btn btn-default',
         icon: '',
-        text: 'Ajouter un élément'
+        text: 'Add an item'
     },
     remove_btn: {
-        'class': 'btn btn-default',
+        'target': '.action-delete',
+        'class': 'btn btn-danger',
         icon: 'fa fa-trash',
-        text: 'Supprimer'
+        text: 'Delete'
     }
 };
 dywee_handle_form_collection(collection_container_id, personnalConfig);
