@@ -12,12 +12,15 @@ function dywee_handle_form_collection(container, userConfig) {
         label: 'Element',
         allow_add: true,
         allow_delete: true,
+        auto_add: true, //for add imeditalty a new element if count = 0
         add_btn: {
+            target: '',
             'class': 'btn btn-default',
             icon: '',
             text: 'Ajouter un élément'
         },
         remove_btn: {
+            target: '',
             'class': 'btn btn-default',
             icon: 'fa fa-trash',
             text: 'Supprimer'
@@ -37,7 +40,12 @@ function dywee_handle_form_collection(container, userConfig) {
     if(config.allow_add == true)
     {
         var $addLink = $('<a href="#" id="add_category" class="'+config.add_btn.class+'">'+config.add_btn.text+'</a>');
-        $container.append($addLink);
+
+        if (config.add_btn.target == '')
+            $container.append($addLink);
+        else
+            $container.find(config.add_btn.target).html($addLink);
+
         // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
         $addLink.click(function(e) {
             addCategory($container);
@@ -50,7 +58,7 @@ function dywee_handle_form_collection(container, userConfig) {
     var index = $container.find(':input').length;
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
-    if (index == 0) {
+    if (index == 0 && config.auto_add == true) {
         addCategory($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
@@ -84,10 +92,16 @@ function dywee_handle_form_collection(container, userConfig) {
     // La fonction qui ajoute un lien de suppression d'une catégorie
     function addDeleteLink($prototype) {
         // Création du lien
-        $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'">'+config.remove_btn.text+'</a>');
+        if (config.remove_btn.icon == '')
+            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'">'+config.remove_btn.text+'</a>');
+        else
+            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i>'+config.remove_btn.text+'</a>');
 
         // Ajout du lien
-        $prototype.append($deleteLink);
+        if (config.remove_btn.target == '')
+            $prototype.append($deleteLink);
+        else
+            $prototype.find(config.remove_btn.target).html($deleteLink);
 
         // Ajout du listener sur le clic du lien
         $deleteLink.click(function(e) {
