@@ -102,7 +102,7 @@ abstract class ParentController extends Controller
     protected function handleForm($object, Request $request, $parameters = null)
     {
 
-        dump($parameters);
+        //dump($parameters);
         $new = !is_numeric($object->getId());
 
         $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
@@ -198,7 +198,7 @@ abstract class ParentController extends Controller
 
     public function addFromParentAction($id, Request $request, $parameters = null)
     {
-        dump($parameters);
+        //dump($parameters);
 
         $childEntityName = $this->getEntityNameSpace();
         $childEntity = new $childEntityName();
