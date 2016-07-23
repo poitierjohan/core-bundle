@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  *      ajout de tableAction, ajout d'un argument $parameters à chaque méthode pour pouvoir gérer et complexifier un peu le bazar
  *      indexAction est nécessaire? Il renvoie un tableau -> tableAction?
  *
- * v1.1.1 by Johan
- *      ajout du transfert de data depuis le controlleur principal : $parameters['dataToGive']) vers un formulaire (par exemple)
+ *
  */
 
 trait Referer {
@@ -101,8 +100,6 @@ abstract class ParentController extends Controller
     //Créer/gère le formulaire + ajout/modif dans la BDD
     protected function handleForm($object, Request $request, $parameters = null)
     {
-
-        //dump($parameters);
         $new = !is_numeric($object->getId());
 
         $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
@@ -148,22 +145,22 @@ abstract class ParentController extends Controller
 
         $viewFolder = $parameters['viewFolderName'] ?? $entityName;
 
+
         if($new)
             return $this->handleView([
                 'view' => 'add',
                 'data' => [
-                    'form' => $form->createView()
-                ],
-            ], [
-                'dataToGive' => $parameters['dataToGive']
+                    'form' => $form->createView(),
+                    'dateToGive' => $parameters['dataToGive']
+                ]
             ]);
         else
             return $this->handleView([
                 'view' => 'edit',
                 'data' => [
-                    'form' => $form->createView()
-                ],
-                'dataToGive' => $parameters['dataToGive']
+                    'form' => $form->createView(),
+                    'dateToGive' => $parameters['dataToGive']
+                ]
             ]);
     }
 
@@ -198,8 +195,6 @@ abstract class ParentController extends Controller
 
     public function addFromParentAction($id, Request $request, $parameters = null)
     {
-        //dump($parameters);
-
         $childEntityName = $this->getEntityNameSpace();
         $childEntity = new $childEntityName();
 
@@ -252,12 +247,7 @@ abstract class ParentController extends Controller
                 isset($parameters['add_data']) ? $parameters['add_data'] : array()
             )
         ;
-
-        return $this->render($parentPath.':'.$fileName.'.html.twig', [
-            'form' => $data['form'],
-            //'data' => $data,
-            'dataToGive' => $parameters['dataToGive'] ?? null
-        ]);
+        return $this->render($parentPath.':'.$fileName.'.html.twig', $data);
     }
 
     public function getPreviousRoute($request)
