@@ -34,8 +34,6 @@ function dywee_handle_form_collection(container, userConfig) {
 
     var $container = $(config.container_type+'#'+container);
 
-    console.log($container);
-
     // On ajoute un lien pour ajouter une nouvelle catégorie
     if(config.allow_add == true)
     {
@@ -73,6 +71,7 @@ function dywee_handle_form_collection(container, userConfig) {
         // Dans le contenu de l'attribut « data-prototype », on remplace :
         // - le texte "__name__label__" qu'il contient par le label du champ
         // - le texte "__name__" qu'il contient par le numéro du champ
+        console.log('ici', $container);
         var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
             .replace(/__name__/g, index));
 
