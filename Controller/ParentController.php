@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
  *      ajout de tableAction, ajout d'un argument $parameters à chaque méthode pour pouvoir gérer et complexifier un peu le bazar
  *      indexAction est nécessaire? Il renvoie un tableau -> tableAction?
  *
- *
+ * v1.1.1 by Johan
+ *      ajout du transfert de data depuis le controlleur principal : $parameters['dataToGive']) vers un formulaire (par exemple)
  */
 
 trait Referer {
@@ -28,31 +29,16 @@ trait Referer {
 abstract class ParentController extends Controller
 {
     use Referer;
-    protected $repositoryName;
-    protected $classNameWithNamespace;
-    protected $className;
-    protected $bundleName;
+    private $repositoryName;
 
     public function __construct()
     {
-
-        $this->classNameWithNamespace = str_replace('\\\\', '\Entity\\', str_replace(array('Controller'), '', get_class($this)));
-        $exploded = explode('\\', $this->classNameWithNamespace);
-        $this->className = $exploded[count($exploded)-1];
-        $this->bundleName = '';
-        foreach($exploded as $element)
-        {
-            if($element == 'Entity')
-                break;
-            $this->bundleName .= $element;
-        }
-
-        $this->repositoryName = str_replace('\\', '', $this->bundleName).':'.$this->className;
+        $this->repositoryName = str_replace('\\', '', $this->bundleName).':'.$this->entityName;
     }
 
     public function getEntityNameSpace()
     {
-        return $this->classNameWithNamespace;
+        return $this->bundleName.'\Entity\\'.$this->entityName;
     }
 
     public function viewAction($id, $parameters = null)
@@ -66,21 +52,15 @@ abstract class ParentController extends Controller
         }
         else $object = $this->getFromId($id);
 
-        return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->className) => $object)), $parameters);
+        return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityName) => $object)), $parameters);
     }
 
     public function tableAction($parameters = null)
     {
-        $listName = lcfirst($this->className);
-
-        if(substr($listName, -1) == 'y')
-            $listName = substr($listName, 0, -1).'ies';
-        else $listName .= 's';
-
         return $this->handleView(array(
             'view' => 'table',
             'data' => array(
-                $listName => $this->getList($parameters)
+                lcfirst($this->entityName).'List' => $this->getList($parameters)
             )),
             $parameters
         );
@@ -91,7 +71,7 @@ abstract class ParentController extends Controller
         return $this->handleView(array(
             'view' => 'dashboard',
             'data' => array(
-                lcfirst($this->className).'List' => $this->getList($parameters)
+                lcfirst($this->entityName).'List' => $this->getList($parameters)
             )),
             $parameters
         );
@@ -108,7 +88,7 @@ abstract class ParentController extends Controller
 
     public function addAction(Request $request, $parameters = null)
     {
-        $entityName = $this->classNameWithNamespace;
+        $entityName = $this->getEntityNameSpace();
 
         return $this->handleForm(new $entityName(), $request, $parameters);
     }
@@ -121,10 +101,12 @@ abstract class ParentController extends Controller
     //Créer/gère le formulaire + ajout/modif dans la BDD
     protected function handleForm($object, Request $request, $parameters = null)
     {
+
+        dump($parameters);
         $new = !is_numeric($object->getId());
 
-        $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : str_replace('Dywee', 'Dywee\\', $this->bundleName);
-        $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->className;
+        $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
+        $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityName;
         $type = $bundleName.'\Form\\'.$entityName.'Type';
 
         $formBuilder = isset($parameters['form']) ? $parameters['form'] : $this->get('form.factory')->createBuilder($type, $object);
@@ -143,7 +125,7 @@ abstract class ParentController extends Controller
             $em->persist($object);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->set('success', 'Element correctement ' . ($new ? 'ajouté' : 'modifié'));
+            $request->getSession()->getFlashBag()->set('success', $this->publicName . ' correctement ' . ($new ? 'ajouté' : 'modifié'));
 
             if(isset($parameters['redirectTo']))
             {
@@ -164,12 +146,25 @@ abstract class ParentController extends Controller
                 return $this->redirect($this->generateUrl($this->tableViewName));
         }
 
-        $viewFolder = isset($parameters['viewFolderName']) ? $parameters['viewFolderName'] : $entityName;
+        $viewFolder = $parameters['viewFolderName'] ?? $entityName;
 
         if($new)
-            return $this->handleView(array('view' => 'add', 'data' => array('form' => $form->createView())));
+            return $this->handleView([
+                'view' => 'add',
+                'data' => [
+                    'form' => $form->createView()
+                ],
+            ], [
+                'dataToGive' => $parameters['dataToGive']
+            ]);
         else
-            return $this->handleView(array('view' => 'edit', 'data' => array('form' => $form->createView())));
+            return $this->handleView([
+                'view' => 'edit',
+                'data' => [
+                    'form' => $form->createView()
+                ],
+                'dataToGive' => $parameters['dataToGive']
+            ]);
     }
 
     public function tableFromParentAction($id, $parameters = null)
@@ -186,22 +181,16 @@ abstract class ParentController extends Controller
         //On récupère la liste des entités enfants à partir de l'entité parente
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
 
-        if($this->className == $explodedNameSpace[2])
+        if($this->entityName == $explodedNameSpace[2])
             $methodName = 'findByParent';
         else $methodName = 'findBy'.$explodedNameSpace[2];
 
         $items = $repository->$methodName($parentEntity);
 
-        $listName = lcfirst($explodedNameSpace[2]);
-
-        if(substr($listName, -1) == 'y')
-            $listName = substr($listName, 0, -1).'ies';
-        else $listName .= 's';
-
         return $this->handleView(array(
             'view' => 'table',
             'data' => array(
-                $listName => $parentEntity
+                lcfirst($explodedNameSpace[2]) => $parentEntity
             )),
             $parameters
         );
@@ -209,6 +198,8 @@ abstract class ParentController extends Controller
 
     public function addFromParentAction($id, Request $request, $parameters = null)
     {
+        dump($parameters);
+
         $childEntityName = $this->getEntityNameSpace();
         $childEntity = new $childEntityName();
 
@@ -218,7 +209,7 @@ abstract class ParentController extends Controller
         $parentEntity = $parentRepository->findOneById($id);
 
         //On set l'entité parente dans l'entité à ajouter
-        if($this->className == $explodedNameSpace[2])
+        if($this->entityName == $explodedNameSpace[2])
             $methodParentName = 'setParent';
         else $methodParentName = 'set'.$explodedNameSpace[2];
 
@@ -262,7 +253,11 @@ abstract class ParentController extends Controller
             )
         ;
 
-        return $this->render($parentPath.':'.$fileName.'.html.twig', $data);
+        return $this->render($parentPath.':'.$fileName.'.html.twig', [
+            'form' => $data['form'],
+            //'data' => $data,
+            'dataToGive' => $parameters['dataToGive'] ?? null
+        ]);
     }
 
     public function getPreviousRoute($request)
@@ -289,5 +284,15 @@ abstract class ParentController extends Controller
     public function tableActionsHelper()
     {
 
+    }
+
+    public function getWebsite($id = null)
+    {
+        $websiteRepository = $this->getDoctrine()->getRepository('DyweeWebsiteBundle:Academy');
+        $websiteId = $id ? $id : $this->get('session')->get('activeWebsiteId');
+        if($websiteId)
+            return $websiteRepository->findOneById($websiteId);
+
+        else throw $this->createNotFoundException('Erreur dans la récupération du site internet');
     }
 }
