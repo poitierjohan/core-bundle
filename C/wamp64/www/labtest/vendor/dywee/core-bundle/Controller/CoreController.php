@@ -14,7 +14,6 @@ class CoreController extends Controller
     public function fakeRouteAction()
     {
         return new Response('fake route');
-        //TEST BACKUP
     }
 
 
