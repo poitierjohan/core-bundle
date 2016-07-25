@@ -6,13 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/*
- * v1.1 by Olivier:
- *      ajout de tableAction, ajout d'un argument $parameters à chaque méthode pour pouvoir gérer et complexifier un peu le bazar
- *      indexAction est nécessaire? Il renvoie un tableau -> tableAction?
- *
- *
- */
 
 trait Referer {
     private function getRefererParams() {
