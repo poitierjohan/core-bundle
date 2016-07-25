@@ -56,10 +56,14 @@ abstract class ParentController extends Controller
 
     public function tableAction($parameters = null)
     {
+        $listName = lcfirst($this->entityName);
+        if (substr($listName,-1) == "y")
+            $listName = substr($listName,-1)."ies";
+
         return $this->handleView(array(
             'view' => 'table',
             'data' => array(
-                lcfirst($this->entityName).'List' => $this->getList($parameters)
+                $listName => $this->getList($parameters)
             )),
             $parameters
         );
@@ -154,16 +158,14 @@ abstract class ParentController extends Controller
             return $this->handleView([
                 'view' => 'add',
                 'data' => [
-                    'form' => $form->createView(),
-                    'dateToGive' => $parameters['dataToGive']
+                    'form' => $form->createView()
                 ]
             ]);
         else
             return $this->handleView([
                 'view' => 'edit',
                 'data' => [
-                    'form' => $form->createView(),
-                    'dateToGive' => $parameters['dataToGive']
+                    'form' => $form->createView()
                 ]
             ]);
     }
