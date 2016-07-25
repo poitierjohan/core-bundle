@@ -58,7 +58,7 @@ abstract class ParentController extends Controller
     {
         $listName = lcfirst($this->entityName);
         if (substr($listName,-1) == "y")
-            $listName = substr($listName,-1)."ies";
+            $listName = substr($listName,0,-1)."ies";
 
         return $this->handleView(array(
             'view' => 'table',
@@ -73,7 +73,7 @@ abstract class ParentController extends Controller
     {
         $listName = lcfirst($this->entityName);
         if (substr($listName,-1) == "y")
-            $listName = substr($listName,-1)."ies";
+            $listName = substr($listName,0,-1)."ies";
 
         return $this->handleView(array(
             'view' => 'dashboard',
