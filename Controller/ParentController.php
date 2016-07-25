@@ -67,10 +67,14 @@ abstract class ParentController extends Controller
 
     public function dashboardAction($parameters = null)
     {
+        $listName = lcfirst($this->entityName);
+        if (substr($listName,-1) == "y")
+            $listName = substr($listName,-1)."ies";
+
         return $this->handleView(array(
             'view' => 'dashboard',
             'data' => array(
-                lcfirst($this->entityName).'List' => $this->getList($parameters)
+                $listName => $this->getList($parameters)
             )),
             $parameters
         );

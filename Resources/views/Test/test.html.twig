@@ -1,0 +1,21 @@
+<html>
+<head>
+
+</head>
+<body>
+<script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
+<script>
+    SC.initialize({
+        client_id: 'e480f7c6645cff0f37bb6df9781682a2',
+        redirect_uri: 'http://localhost:8888/dywee/websites/dywee/web/app_dev.php/test68332'
+    });
+
+    // initiate auth popup
+    SC.connect().then(function() {
+        return SC.get('/me');
+    }).then(function(me) {
+        alert('Hello, ' + me.username);
+    });
+</script>
+</body>
+</html>
