@@ -236,6 +236,8 @@ abstract class ParentController extends Controller
 
         $this->get('session')->getFlashBag()->set('success', $message);
 
+        if($parameters['redirectTo'] == 'referer')
+            return $this->redirect($this->getPreviousRoute($request));
         return $this->redirect($this->generateUrl($this->tableViewName));
     }
 
