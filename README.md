@@ -80,6 +80,21 @@ like this with an example of TABLE in HTML :
             <td>Column 2</td>
             <td class="action-delete"></td>
         </tr>
+        <tr>
+            <td>Column 1</td>
+            <td>Column 2</td>
+            <td class="action-delete"></td>
+        </tr>
+        <tr>
+            <td>Column 1</td>
+            <td>Column 2</td>
+            <td class="action-delete"></td>
+        </tr>
+        <tr>
+            <td>Column 1</td>
+            <td>Column 2</td>
+            <td class="action-delete"></td>
+        </tr>
     </tbody
     <tfoot>
         <tr>
