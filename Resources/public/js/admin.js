@@ -9,6 +9,7 @@ function dywee_handle_form_collection(container) {
 function dywee_handle_form_collection(container, userConfig) {
     var config = {
         container_type: 'div',
+        container_child: '',
         label: 'Element',
         allow_add: true,
         allow_delete: true,
@@ -60,10 +61,20 @@ function dywee_handle_form_collection(container, userConfig) {
         addCategory($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
-        $container.children('div').each(function() {
+        if (config.container_child != '')
+        {
+            $container.find(config.container_child).children().each(function() {
             if(config.allow_delete == true)
                 addDeleteLink($(this));
-        });
+            });
+        }
+        else
+        {
+            $container.children().each(function() {
+                if(config.allow_delete == true)
+                    addDeleteLink($(this));
+            });
+        }
     }
 
     // La fonction qui ajoute un formulaire Categorie
