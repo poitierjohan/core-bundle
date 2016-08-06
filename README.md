@@ -72,13 +72,13 @@ dywee_handle_form_collection(collection_container_id, personnalConfig);
 ```
 
 like this with an example of TABLE in HTML :
-```html
+```
 <table>
     <tbody>
         <tr>
             <td>Column 1</td>
             <td>Column 2</td>
-            <td class="action-delete></td>
+            <td class="action-delete"></td>
         </tr>
     </tbody
     <tfoot>
@@ -86,9 +86,8 @@ like this with an example of TABLE in HTML :
             <td colspan="3" class="action-add"></td>
         </tr>
     </tfoot>
-</table
-```
-```javascript
+</table>
+
 <script>
 var personnalConfig = {
     container_type: 'table',
