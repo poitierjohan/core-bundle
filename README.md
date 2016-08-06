@@ -71,12 +71,28 @@ dywee_handle_form_collection(collection_container_id, personnalConfig);
 </script>
 ```
 
-like this :
-
+like this with an example of TABLE in HTML :
+```html
+<table>
+    <tbody>
+        <tr>
+            <td>Column 1</td>
+            <td>Column 2</td>
+            <td class="action-delete></td>
+        </tr>
+    </tbody
+    <tfoot>
+        <tr>
+            <td colspan="3" class="action-add"></td>
+        </tr>
+    </tfoot>
+</table
+```
 ```javascript
 <script>
 var personnalConfig = {
-    container_type: 'div',
+    container_type: 'table',
+    container_child: 'tbody',
     label: 'My element',
     allow_add: true,
     allow_delete: true,
