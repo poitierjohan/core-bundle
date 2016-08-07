@@ -50,6 +50,15 @@ Just extend the 'DyweeCoreBundle:Templates:admin.html.twig' template from your t
 
 ## Using the modal preload
 
+```javascript
+<script>
+$(jQuerySelector).preload({callback: function(){});
+</script>
+```
+
+Just apply the preload on a link. The script will catch the url and preload the content of the target.
+Set the callback you want when the link (or the button) is clicked and enjoy the power of the preload
+
 ## Js form collection handling
 
 the core bundle is providing 2 ways to handle collections in forms, based on jQuery.
