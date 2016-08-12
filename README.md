@@ -50,15 +50,6 @@ Just extend the 'DyweeCoreBundle:Templates:admin.html.twig' template from your t
 
 ## Using the modal preload
 
-```javascript
-<script>
-$(jQuerySelector).preload({callback: function(){});
-</script>
-```
-
-Just apply the preload on a link. The script will catch the url and preload the content of the target.
-Set the callback you want when the link (or the button) is clicked and enjoy the power of the preload
-
 ## Js form collection handling
 
 the core bundle is providing 2 ways to handle collections in forms, based on jQuery.
@@ -80,42 +71,12 @@ dywee_handle_form_collection(collection_container_id, personnalConfig);
 </script>
 ```
 
-like this with an example of TABLE in HTML :
-```
-<table>
-    <tbody>
-        <tr>
-            <td>Column 1</td>
-            <td>Column 2</td>
-            <td class="action-delete"></td>
-        </tr>
-        <tr>
-            <td>Column 1</td>
-            <td>Column 2</td>
-            <td class="action-delete"></td>
-        </tr>
-        <tr>
-            <td>Column 1</td>
-            <td>Column 2</td>
-            <td class="action-delete"></td>
-        </tr>
-        <tr>
-            <td>Column 1</td>
-            <td>Column 2</td>
-            <td class="action-delete"></td>
-        </tr>
-    </tbody
-    <tfoot>
-        <tr>
-            <td colspan="3" class="action-add"></td>
-        </tr>
-    </tfoot>
-</table>
+like this :
 
+```javascript
 <script>
 var personnalConfig = {
-    container_type: 'table',
-    container_child: 'tbody',
+    container_type: 'div',
     label: 'My element',
     allow_add: true,
     allow_delete: true,

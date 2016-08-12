@@ -23,7 +23,9 @@ class AdminSidebarBuilderEvent extends Event
 
     public function addAdminElement($element)
     {
-        $this->sidebar['admin'][] = $element;
+        if(isset($element['key']) && array_key_exists($element['key'], $this->sidebar['admin']))
+            $this->sidebar['admin'][$element['key']]['children'] = array_merge($this->sidebar['admin'][$element['key']]['children'], $element['children']);
+        else $this->sidebar['admin'][$element['key']] = $element;
         return $this;
     }
 
