@@ -82,7 +82,7 @@ function dywee_handle_form_collection(container, userConfig) {
         // Dans le contenu de l'attribut « data-prototype », on remplace :
         // - le texte "__name__label__" qu'il contient par le label du champ
         // - le texte "__name__" qu'il contient par le numéro du champ
-        console.log('ici', $container);
+        //console.log('ici', $container);
         var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
             .replace(/__name__/g, index));
 
@@ -134,7 +134,7 @@ function dywee_handle_delete_btn() {
         $btn.html('<i class="fa fa-spinner fa-spin"></i>');
         var route = ($(this).attr('data-route')) ? Routing.generate($(this).attr('data-route'), {id: $(this).attr('data-id') }) : $(this).attr('href');
 
-        console.log(route);
+        //console.log(route);
 
         var $confirmModal = $('#dataConfirmModal');
 
