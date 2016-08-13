@@ -9,7 +9,6 @@ function dywee_handle_form_collection(container) {
 function dywee_handle_form_collection(container, userConfig) {
     var config = {
         container_type: 'div',
-        container_child: '',
         label: 'Element',
         allow_add: true,
         allow_delete: true,
@@ -61,20 +60,10 @@ function dywee_handle_form_collection(container, userConfig) {
         addCategory($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
-        if (config.container_child != '')
-        {
-            $container.find(config.container_child).children().each(function() {
+        $container.children('div').each(function() {
             if(config.allow_delete == true)
                 addDeleteLink($(this));
-            });
-        }
-        else
-        {
-            $container.children().each(function() {
-                if(config.allow_delete == true)
-                    addDeleteLink($(this));
-            });
-        }
+        });
     }
 
     // La fonction qui ajoute un formulaire Categorie
@@ -195,3 +184,98 @@ $(document).ready(function() {
     dywee_handle_delete_btn();
     $('.select2').select2();
 });
+
+(function ( $ ) {
+
+    $.fn.preload = function( options ) {
+
+        // This is the easiest way to have default options.
+        var settings = $.extend({
+            btn: null,
+            route: null,
+            routingData: {},
+            ajaxData: {},
+            btnContent: null,
+            data: null,
+            callback: null,
+            loaded: false,
+            compiledRoute: null,
+            $btn: null,
+            isBtnModified: false
+        }, options);
+
+        route(this);
+        handleBtn(this);
+        launchAjax();
+
+        function handleBtn(btn)
+        {
+            btn.on('click', function(e)
+            {
+                e.preventDefault();
+
+                if(!settings.loaded)
+                {
+                    settings.isBtnModified = true;
+                    settings.btnContent = $(this).html();
+                    $(this).find('i').attr('class', 'fa fa-spinner fa-spin');
+                }
+
+                settings.$btn = $(this);
+
+                var checker = setInterval(function(){
+                    if(settings.loaded) {
+                        clearInterval(checker);
+                        if(settings.btnContent && settings.isBtnModified)
+                        {
+                            settings.isBtnModified = false;
+                            settings.$btn.html(settings.btnContent);
+                        }
+                        if(settings.callback)
+                            settings.callback(settings.data, settings);
+                        else {
+                            console.log('[Preload][Error] No callback defined for btn');
+                            console.log(btn);
+                        }
+                    }
+                }, 500);
+            });
+        }
+
+        function launchAjax()
+        {
+            $.post({
+                url: settings.compiledRoute,
+                dataType: 'json',
+                data: settings.ajaxData,
+                success: function(loadedData)
+                {
+                    if(loadedData.status == 'success')
+                    {
+                        settings.data = loadedData;
+                        settings.loaded = true;
+                    }
+                    else console.log('Erreur dans une requête ajax (btn: '+settings.btn+')');
+                }
+            });
+        }
+
+        function route(btn)
+        {
+            console.log(btn.attr('href'));
+            if(btn.attr('href') != '#' && btn.attr('href') != '')
+                settings.compiledRoute = btn.attr('href');
+            if(settings.route != null)
+            {
+                if($.isEmptyObject(settings.routingData))
+                    settings.compiledRoute = Routing.generate(settings.route);
+                else
+                    settings.compiledRoute = Routing.generate(settings.route, settings.routingData);
+            }
+            console.log('ici');
+            console.log(settings.compiledRoute);
+        }
+
+    };
+
+}( jQuery ));

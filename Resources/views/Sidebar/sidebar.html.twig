@@ -7,12 +7,12 @@
                 {% if item.icon is defined and item.icon != '' %}
                     <i class="{{ item.icon }}"></i>
                 {% endif %}
-                <span>{{ item.label }}</span>
+                <span>{{ item.label|trans }}</span>
                 <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
                 {% for child in item.children %}
-                    <li><a href="{{ child.route }}"><i class="{{ child.icon }}"></i> {{ child.label }}</a></li>
+                    <li><a href="{{ child.route }}"><i class="{{ child.icon }}"></i> {{ child.label|trans }}</a></li>
                 {% endfor %}
             </ul>
         </li>
