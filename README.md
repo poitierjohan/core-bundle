@@ -32,7 +32,7 @@ Just extend the 'DyweeCoreBundle:Templates:admin.html.twig' template from your t
 
 {% extends "DyweeCoreBundle::admin.html.twig" %}
 
-{% block title %}
+{% block metaTitle %}
     {{ parent() }}
 {% endblock %}
 
