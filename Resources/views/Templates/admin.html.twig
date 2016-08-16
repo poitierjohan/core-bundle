@@ -125,17 +125,17 @@
         <!-- Content Header (Page header) -->
         {% block pageHeader %}
         <section class="content-header">
-            {% block pageTitle %}
+            {% block title %}
                 <h1>
                     Dashboard
                     <small>Version 2.0</small>
                 </h1>
             {% endblock %}
             {% block breadcrumb %}
-            <ol class="breadcrumb">
-                <li><a href="{{ path('admin_dashboard') }}"><i class="fa fa-home"></i> Administration</a></li>
-                {% block breadcrumbLvl1 %}<li class="active">Accueil</li>{% endblock %}
-            </ol>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('admin_dashboard') }}"><i class="fa fa-home"></i> Administration</a></li>
+                    {% block breadcrumbLvl1 %}<li class="active">Accueil</li>{% endblock %}
+                </ol>
             {% endblock %}
         </section>
         {% endblock %}
