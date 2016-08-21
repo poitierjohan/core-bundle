@@ -21,7 +21,7 @@ function dywee_handle_form_collection(container, userConfig) {
         },
         remove_btn: {
             target: '',
-            'class': 'btn btn-default',
+            'class': 'btn btn-danger',
             icon: 'fa fa-trash',
             text: 'Supprimer'
         }
@@ -60,7 +60,7 @@ function dywee_handle_form_collection(container, userConfig) {
         addCategory($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
-        $container.children('div').each(function() {
+        $container.children(config.container_type).each(function() {
             if(config.allow_delete == true)
                 addDeleteLink($(this));
         });
@@ -72,8 +72,16 @@ function dywee_handle_form_collection(container, userConfig) {
         // - le texte "__name__label__" qu'il contient par le label du champ
         // - le texte "__name__" qu'il contient par le numéro du champ
         //console.log('ici', $container);
-        var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
+        var $prototype = null;
+
+
+
+        if(config.container_type == 'div')
+            $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
             .replace(/__name__/g, index));
+
+        else
+            $prototype = $($container.attr('data-prototype'));
 
         // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
         if(config.allow_delete)
@@ -94,7 +102,7 @@ function dywee_handle_form_collection(container, userConfig) {
         if (config.remove_btn.icon == '')
             $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'">'+config.remove_btn.text+'</a>');
         else
-            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i>'+config.remove_btn.text+'</a>');
+            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i> '+config.remove_btn.text+'</a>');
 
         // Ajout du lien
         if (config.remove_btn.target == '')
