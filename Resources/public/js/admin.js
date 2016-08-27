@@ -2,6 +2,62 @@
  * Created by Olivier on 6/02/15.
  */
 
+//Add by Johan 23-08-2016
+function validate_ajax_form(userConfig)
+{
+    var config = {
+        form_name: 'MyFormName',
+        target_success: {
+            dom: '.#Target',
+            element_to_add: '<tr>__content__</tr>' //__content__ will be replaced by the renderView from the controller
+        },
+        button_validate: {
+            dom: '.#SubmitButton',
+            text_waiting: '<i class="i fa-spin fa-spinner"></i> Please wait',
+        }
+    };
+
+    //Réécriture des paramètres
+    $.each(userConfig, function(key, value)
+    {
+        config[key] = userConfig[key];
+    });
+
+    $(config.button_validate.dom).on("click", function(e){
+        e.preventDefault();
+
+        var $form = $('[name="' + config.form_name + '"]');
+        var $formInputs = $('[name="' + config.form_name + '"] input, select, textarea');
+        //console.log($form);
+
+        var values = {};
+        $.each($formInputs, function(i, field) {
+            //console.log(field);
+            values[field.id] = field.value;
+        });
+        console.log(values);
+
+        $(this).html(config.button_validate.text_waiting);
+
+        $.ajax({
+            type: 'POST',
+            url: $form.attr('action'),
+            dataType: 'json',
+            data: values,
+            success: function(dataReceived) {
+                var $target = $(config.target_success.dom);
+                $target.append(config.target_success.element_to_add.replace('__content__', dataReceived.content));
+
+                $('#modalForm').modal('hide');
+            },
+            error: function() {
+                $(config.button_validate.dom).removeClass(config.button_validate.waiting_class);
+                $(config.button_validate.dom).html(config.button_validate.originale_text);
+            }
+        });
+    });
+}
+
 function dywee_handle_form_collection(container) {
     dywee_handle_form_collection(container, null);
 }
@@ -21,7 +77,7 @@ function dywee_handle_form_collection(container, userConfig) {
         },
         remove_btn: {
             target: '',
-            'class': 'btn btn-danger',
+            'class': 'btn btn-default',
             icon: 'fa fa-trash',
             text: 'Supprimer'
         }
@@ -60,7 +116,7 @@ function dywee_handle_form_collection(container, userConfig) {
         addCategory($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
-        $container.children(config.container_type).each(function() {
+        $container.children('div').each(function() {
             if(config.allow_delete == true)
                 addDeleteLink($(this));
         });
@@ -72,16 +128,8 @@ function dywee_handle_form_collection(container, userConfig) {
         // - le texte "__name__label__" qu'il contient par le label du champ
         // - le texte "__name__" qu'il contient par le numéro du champ
         //console.log('ici', $container);
-        var $prototype = null;
-
-
-
-        if(config.container_type == 'div')
-            $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
+        var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
             .replace(/__name__/g, index));
-
-        else
-            $prototype = $($container.attr('data-prototype'));
 
         // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
         if(config.allow_delete)
@@ -102,7 +150,7 @@ function dywee_handle_form_collection(container, userConfig) {
         if (config.remove_btn.icon == '')
             $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'">'+config.remove_btn.text+'</a>');
         else
-            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i> '+config.remove_btn.text+'</a>');
+            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i>'+config.remove_btn.text+'</a>');
 
         // Ajout du lien
         if (config.remove_btn.target == '')
