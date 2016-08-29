@@ -21,16 +21,51 @@ trait Referer {
 abstract class ParentController extends Controller
 {
     use Referer;
-    private $repositoryName;
+    protected $repositoryName;
+    protected $entityClassNameWithNamespace;
+    protected $entityClassName;
+    protected $entityClassNameUnderscored;
+    protected $listName;
+    protected $bundleName;
 
     public function __construct()
     {
-        $this->repositoryName = str_replace('\\', '', $this->bundleName).':'.$this->entityName;
+        $this->getObjectNames();
+    }
+
+    public function getObjectNames($object = null)
+    {
+        $this->entityClassNameWithNamespace = str_replace('\\\\', '\Entity\\', str_replace(array('Controller'), '', get_class($object ?? $this)));
+        $exploded = explode('\\', $this->entityClassNameWithNamespace);
+        $this->entityClassName = $exploded[count($exploded)-1];
+
+        $this->bundleName = $exploded[count($exploded)-3];
+        if(count($exploded) === 4)
+            $this->bundleName = $exploded[0] . $this->bundleName;
+
+        $this->repositoryName = $this->bundleName . ':' . $this->entityClassName;
+
+        //To underscore
+        $split = str_split($this->entityClassName);
+        $return = '';
+        foreach($split as $letter){
+            if(ctype_upper($letter) && strlen($return) > 1){
+                $return .= '_';
+            }
+            $return .= $letter;
+        }
+        $this->entityClassNameUnderscored = strtolower($return);
+
+        $this->listName = lcfirst($this->entityClassName);
+        if (substr($this->listName,-1) === "y")
+            $this->listName = substr($this->listName,0,-1)."ies";
+        else
+            $this->listName .= 's';
     }
 
     public function getEntityNameSpace()
     {
-        return $this->bundleName.'\Entity\\'.$this->entityName;
+        return $this->entityClassNameWithNamespace;
     }
 
     public function viewAction($id, $parameters = null)
@@ -44,21 +79,15 @@ abstract class ParentController extends Controller
         }
         else $object = $this->getFromId($id);
 
-        return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityName) => $object)), $parameters);
+        return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityClassName) => $object)), $parameters);
     }
 
     public function tableAction($parameters = null)
     {
-        $listName = lcfirst($this->entityName);
-        if (substr($listName,-1) == "y")
-            $listName = substr($listName,0,-1)."ies";
-        else
-            $listName .= 's';
-
         return $this->handleView(array(
             'view' => 'table',
             'data' => array(
-                $listName => $this->getList($parameters)
+                $this->listName => $this->getList($parameters)
             )),
             $parameters
         );
@@ -66,16 +95,10 @@ abstract class ParentController extends Controller
 
     public function dashboardAction($parameters = null)
     {
-        $listName = lcfirst($this->entityName);
-        if (substr($listName,-1) == "y")
-            $listName = substr($listName,0,-1)."ies";
-        else
-            $listName .= 's';
-
         return $this->handleView(array(
             'view' => 'dashboard',
             'data' => array(
-                $listName => $this->getList($parameters)
+                $this->listName => $this->getList($parameters)
             )),
             $parameters
         );
@@ -107,9 +130,14 @@ abstract class ParentController extends Controller
     {
         $new = !is_numeric($object->getId());
 
-        $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
-        $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityName;
-        $type = $bundleName.'\Form\\'.$entityName.'Type';
+        $type = str_replace('Entity', 'Form', $this->entityClassNameWithNamespace.'Type');
+
+        if(isset($parameters['bundleFormName']) || isset($parameters['entityFormName']))
+        {
+            $bundleName = isset($parameters['bundleFormName']) ? $parameters['bundleFormName'] : $this->bundleName;
+            $entityName = isset($parameters['entityFormName']) ? $parameters['entityFormName'] : $this->entityClassName;
+            $type = $bundleName.'\Form\\'.$entityName.'Type';
+        }
 
         $formBuilder = isset($parameters['form']) ? $parameters['form'] : $this->get('form.factory')->createBuilder($type, $object);
 
@@ -127,11 +155,11 @@ abstract class ParentController extends Controller
             $em->persist($object);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->set('success', $this->publicName . ' correctement ' . ($new ? 'ajouté' : 'modifié'));
+            $request->getSession()->getFlashBag()->set('success', $this->entityClassName ?? 'Objet' . ' correctement ' . ($new ? 'ajouté' : 'modifié'));
 
             if(isset($parameters['redirectTo']))
             {
-                if($parameters['redirectTo'] == 'referer')
+                if($parameters['redirectTo'] === 'referer')
                     return $this->redirect($this->getPreviousRoute($request));
                 if(isset($parameters['routingArgs']))
                     if(isset($parameters['routingArgs']['id']) && $parameters['routingArgs']['id'] == 'object_id')
@@ -139,32 +167,21 @@ abstract class ParentController extends Controller
 
                 return $this->redirect($this->generateUrl($parameters['redirectTo'], isset($parameters['routingArgs']) ? $parameters['routingArgs'] : null));
             }
-            elseif(isset($parameters['return']) && $parameters['return'] == 'bool')
+            elseif(isset($parameters['return']) && $parameters['return'] === 'bool')
                 return true;
 
             if (method_exists($object, 'getParentEntity') && $object->getParentEntity()->getId())
-                return $this->redirect($this->generateUrl($this->tableViewName, array('id' => $object->getParentEntity()->getId())));
+                return $this->redirect($this->generateUrl(strtolower($this->entityClassNameUnderscored).'_table', array('id' => $object->getParentEntity()->getId())));
             else
-                return $this->redirect($this->generateUrl($this->tableViewName));
+                return $this->redirect($this->generateUrl(strtolower($this->entityClassNameUnderscored).'_table'));
         }
 
-        $viewFolder = $parameters['viewFolderName'] ?? $entityName;
-
-
-        if($new)
-            return $this->handleView([
-                'view' => 'add',
-                'data' => [
-                    'form' => $form->createView()
-                ]
-            ]);
-        else
-            return $this->handleView([
-                'view' => 'edit',
-                'data' => [
-                    'form' => $form->createView()
-                ]
-            ]);
+        return $this->handleView([
+            'view' => $new ? 'add' : 'edit',
+            'data' => [
+                'form' => $form->createView()
+            ]
+        ]);
     }
 
     public function tableFromParentAction($id, $parameters = null)
@@ -181,7 +198,7 @@ abstract class ParentController extends Controller
         //On récupère la liste des entités enfants à partir de l'entité parente
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
 
-        if($this->entityName == $explodedNameSpace[2])
+        if($this->entityClassName === $explodedNameSpace[2])
             $methodName = 'findByParent';
         else $methodName = 'findBy'.$explodedNameSpace[2];
 
@@ -207,7 +224,7 @@ abstract class ParentController extends Controller
         $parentEntity = $parentRepository->findOneById($id);
 
         //On set l'entité parente dans l'entité à ajouter
-        if($this->entityName == $explodedNameSpace[2])
+        if($this->entityClassName === $explodedNameSpace[2])
             $methodParentName = 'setParent';
         else $methodParentName = 'set'.$explodedNameSpace[2];
 
@@ -236,9 +253,9 @@ abstract class ParentController extends Controller
 
         $this->get('session')->getFlashBag()->set('success', $message);
 
-        if($parameters['redirectTo'] == 'referer')
+        if($parameters['redirectTo'] === 'referer')
             return $this->redirect($this->getPreviousRoute($request));
-        return $this->redirect($this->generateUrl($this->tableViewName));
+        return $this->redirect($this->generateUrl(strtolower($this->entityClassNameUnderscored).'_table'));
     }
 
     public function handleView($mainParameters, $parameters = null)
@@ -279,15 +296,5 @@ abstract class ParentController extends Controller
     public function tableActionsHelper()
     {
 
-    }
-
-    public function getWebsite($id = null)
-    {
-        $websiteRepository = $this->getDoctrine()->getRepository('DyweeWebsiteBundle:Academy');
-        $websiteId = $id ? $id : $this->get('session')->get('activeWebsiteId');
-        if($websiteId)
-            return $websiteRepository->findOneById($websiteId);
-
-        else throw $this->createNotFoundException('Erreur dans la récupération du site internet');
     }
 }
