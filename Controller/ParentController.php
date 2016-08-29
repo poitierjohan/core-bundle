@@ -27,13 +27,19 @@ abstract class ParentController extends Controller
     protected $entityClassNameUnderscored;
     protected $listName;
     protected $bundleName;
+    protected $tableViewName;
 
-    public function __construct()
+    protected function __construct()
     {
         $this->getObjectNames();
     }
 
-    public function getObjectNames($object = null)
+    protected function redefine()
+    {
+
+    }
+
+    protected function getObjectNames($object = null)
     {
         $this->entityClassNameWithNamespace = str_replace('\\\\', '\Entity\\', str_replace(array('Controller'), '', get_class($object ?? $this)));
         $exploded = explode('\\', $this->entityClassNameWithNamespace);
@@ -61,14 +67,18 @@ abstract class ParentController extends Controller
             $this->listName = substr($this->listName,0,-1)."ies";
         else
             $this->listName .= 's';
+
+        $this->tableViewName = strtolower($this->entityClassNameUnderscored.'_table');
+
+        $this->redefine();
     }
 
-    public function getEntityNameSpace()
+    protected function getEntityNameSpace()
     {
         return $this->entityClassNameWithNamespace;
     }
 
-    public function viewAction($id, $parameters = null)
+    protected function viewAction($id, $parameters = null)
     {
         $object = null;
         if(isset($parameters['repository_method']))
@@ -82,7 +92,7 @@ abstract class ParentController extends Controller
         return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityClassName) => $object)), $parameters);
     }
 
-    public function tableAction($parameters = null)
+    protected function tableAction($parameters = null)
     {
         return $this->handleView(array(
             'view' => 'table',
@@ -93,7 +103,7 @@ abstract class ParentController extends Controller
         );
     }
 
-    public function dashboardAction($parameters = null)
+    protected function dashboardAction($parameters = null)
     {
         return $this->handleView(array(
             'view' => 'dashboard',
@@ -113,14 +123,14 @@ abstract class ParentController extends Controller
         return (isset($parameters['repository_argument'])) ? $repository->$repositoryMethod($parameters['repository_argument']): $repository->$repositoryMethod();
     }
 
-    public function addAction(Request $request, $parameters = null)
+    protected function addAction(Request $request, $parameters = null)
     {
         $entityName = $this->getEntityNameSpace();
 
         return $this->handleForm(new $entityName(), $request, $parameters);
     }
 
-    public function updateAction($id, Request $request, $parameters = null)
+    protected function updateAction($id, Request $request, $parameters = null)
     {
         return $this->handleForm(is_numeric($id) ? $this->getFromId($id) : $id, $request, $parameters);
     }
@@ -171,9 +181,9 @@ abstract class ParentController extends Controller
                 return true;
 
             if (method_exists($object, 'getParentEntity') && $object->getParentEntity()->getId())
-                return $this->redirect($this->generateUrl(strtolower($this->entityClassNameUnderscored).'_table', array('id' => $object->getParentEntity()->getId())));
+                return $this->redirect($this->generateUrl($this->tableViewName, array('id' => $object->getParentEntity()->getId())));
             else
-                return $this->redirect($this->generateUrl(strtolower($this->entityClassNameUnderscored).'_table'));
+                return $this->redirect($this->generateUrl($this->tableViewName));
         }
 
         return $this->handleView([
@@ -184,7 +194,7 @@ abstract class ParentController extends Controller
         ]);
     }
 
-    public function tableFromParentAction($id, $parameters = null)
+    protected function tableFromParentAction($id, $parameters = null)
     {
         $entityName = $this->getEntityNameSpace();
         $childEntity = new $entityName();
@@ -213,7 +223,7 @@ abstract class ParentController extends Controller
         );
     }
 
-    public function addFromParentAction($id, Request $request, $parameters = null)
+    protected function addFromParentAction($id, Request $request, $parameters = null)
     {
         $childEntityName = $this->getEntityNameSpace();
         $childEntity = new $childEntityName();
@@ -237,7 +247,7 @@ abstract class ParentController extends Controller
         return $this->handleForm($childEntity, $request, $parameters);
     }
 
-    public function deleteAction($id, Request $request, $parameters = null)
+    protected function deleteAction($id, Request $request, $parameters = null)
     {
         $item = $this->getFromId($id);
 
@@ -255,10 +265,10 @@ abstract class ParentController extends Controller
 
         if($parameters['redirectTo'] === 'referer')
             return $this->redirect($this->getPreviousRoute($request));
-        return $this->redirect($this->generateUrl(strtolower($this->entityClassNameUnderscored).'_table'));
+        return $this->redirect($this->generateUrl($this->tableViewName);
     }
 
-    public function handleView($mainParameters, $parameters = null)
+    protected function handleView($mainParameters, $parameters = null)
     {
         $parentPath = isset($parameters['viewFolder']) ? $this->bundleName.':'.$parameters['viewFolder'] : str_replace('\\', '', $this->repositoryName);
         $fileName = isset($mainParameters['view']) ? $mainParameters['view'] : 'dashboard';
@@ -272,12 +282,12 @@ abstract class ParentController extends Controller
         return $this->render($parentPath.':'.$fileName.'.html.twig', $data);
     }
 
-    public function getPreviousRoute($request)
+    protected function getPreviousRoute($request)
     {
         return $request->server->get('HTTP_REFERER');
     }
 
-    public function getFromId($id)
+    protected function getFromId($id)
     {
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
         $object = $repository->findOneById($id);
@@ -288,12 +298,12 @@ abstract class ParentController extends Controller
         return $object;
     }
 
-    public function tableHelper()
+    protected function tableHelper()
     {
 
     }
 
-    public function tableActionsHelper()
+    protected function tableActionsHelper()
     {
 
     }
