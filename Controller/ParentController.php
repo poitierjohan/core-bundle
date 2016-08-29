@@ -29,17 +29,17 @@ abstract class ParentController extends Controller
     protected $bundleName;
     protected $tableViewName;
 
-    protected function __construct()
+    public function __construct()
     {
         $this->getObjectNames();
     }
 
-    protected function redefine()
+    public function redefine()
     {
 
     }
 
-    protected function getObjectNames($object = null)
+    public function getObjectNames($object = null)
     {
         $this->entityClassNameWithNamespace = str_replace('\\\\', '\Entity\\', str_replace(array('Controller'), '', get_class($object ?? $this)));
         $exploded = explode('\\', $this->entityClassNameWithNamespace);
@@ -73,12 +73,12 @@ abstract class ParentController extends Controller
         $this->redefine();
     }
 
-    protected function getEntityNameSpace()
+    public function getEntityNameSpace()
     {
         return $this->entityClassNameWithNamespace;
     }
 
-    protected function viewAction($id, $parameters = null)
+    public function viewAction($id, $parameters = null)
     {
         $object = null;
         if(isset($parameters['repository_method']))
@@ -92,7 +92,7 @@ abstract class ParentController extends Controller
         return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityClassName) => $object)), $parameters);
     }
 
-    protected function tableAction($parameters = null)
+    public function tableAction($parameters = null)
     {
         return $this->handleView(array(
             'view' => 'table',
@@ -103,7 +103,7 @@ abstract class ParentController extends Controller
         );
     }
 
-    protected function dashboardAction($parameters = null)
+    public function dashboardAction($parameters = null)
     {
         return $this->handleView(array(
             'view' => 'dashboard',
@@ -123,20 +123,20 @@ abstract class ParentController extends Controller
         return (isset($parameters['repository_argument'])) ? $repository->$repositoryMethod($parameters['repository_argument']): $repository->$repositoryMethod();
     }
 
-    protected function addAction(Request $request, $parameters = null)
+    public function addAction(Request $request, $parameters = null)
     {
         $entityName = $this->getEntityNameSpace();
 
         return $this->handleForm(new $entityName(), $request, $parameters);
     }
 
-    protected function updateAction($id, Request $request, $parameters = null)
+    public function updateAction($id, Request $request, $parameters = null)
     {
         return $this->handleForm(is_numeric($id) ? $this->getFromId($id) : $id, $request, $parameters);
     }
 
     //Créer/gère le formulaire + ajout/modif dans la BDD
-    protected function handleForm($object, Request $request, $parameters = null)
+    public function handleForm($object, Request $request, $parameters = null)
     {
         $new = !is_numeric($object->getId());
 
@@ -194,7 +194,7 @@ abstract class ParentController extends Controller
         ]);
     }
 
-    protected function tableFromParentAction($id, $parameters = null)
+    public function tableFromParentAction($id, $parameters = null)
     {
         $entityName = $this->getEntityNameSpace();
         $childEntity = new $entityName();
@@ -223,7 +223,7 @@ abstract class ParentController extends Controller
         );
     }
 
-    protected function addFromParentAction($id, Request $request, $parameters = null)
+    public function addFromParentAction($id, Request $request, $parameters = null)
     {
         $childEntityName = $this->getEntityNameSpace();
         $childEntity = new $childEntityName();
@@ -247,7 +247,7 @@ abstract class ParentController extends Controller
         return $this->handleForm($childEntity, $request, $parameters);
     }
 
-    protected function deleteAction($id, Request $request, $parameters = null)
+    public function deleteAction($id, Request $request, $parameters = null)
     {
         $item = $this->getFromId($id);
 
@@ -265,10 +265,10 @@ abstract class ParentController extends Controller
 
         if($parameters['redirectTo'] === 'referer')
             return $this->redirect($this->getPreviousRoute($request));
-        return $this->redirect($this->generateUrl($this->tableViewName);
+        return $this->redirect($this->generateUrl($this->tableViewName));
     }
 
-    protected function handleView($mainParameters, $parameters = null)
+    public function handleView($mainParameters, $parameters = null)
     {
         $parentPath = isset($parameters['viewFolder']) ? $this->bundleName.':'.$parameters['viewFolder'] : str_replace('\\', '', $this->repositoryName);
         $fileName = isset($mainParameters['view']) ? $mainParameters['view'] : 'dashboard';
@@ -282,12 +282,12 @@ abstract class ParentController extends Controller
         return $this->render($parentPath.':'.$fileName.'.html.twig', $data);
     }
 
-    protected function getPreviousRoute($request)
+    public function getPreviousRoute($request)
     {
         return $request->server->get('HTTP_REFERER');
     }
 
-    protected function getFromId($id)
+    public function getFromId($id)
     {
         $repository = $this->getDoctrine()->getRepository($this->repositoryName);
         $object = $repository->findOneById($id);
@@ -298,12 +298,12 @@ abstract class ParentController extends Controller
         return $object;
     }
 
-    protected function tableHelper()
+    public function tableHelper()
     {
 
     }
 
-    protected function tableActionsHelper()
+    public function tableActionsHelper()
     {
 
     }
