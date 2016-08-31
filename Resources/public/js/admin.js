@@ -13,7 +13,8 @@ function validate_ajax_form(userConfig)
         },
         button_validate: {
             dom: '.#SubmitButton',
-            text_waiting: '<i class="i fa-spin fa-spinner"></i> Please wait',
+            text_waiting: '<i class="fa fa-spin fa-spinner"></i> Please wait',
+            class_waiting: "disabled"
         }
     };
 
@@ -35,9 +36,12 @@ function validate_ajax_form(userConfig)
             //console.log(field);
             values[field.id] = field.value;
         });
-        console.log(values);
+        //console.log(values);
 
+        var originalText = $(this).html();
         $(this).html(config.button_validate.text_waiting);
+        $(this).attr('disabled', 'disabled');
+        $(this).toggleClass(config.button_validate.class_waiting);
 
         $.ajax({
             type: 'POST',
@@ -48,11 +52,12 @@ function validate_ajax_form(userConfig)
                 var $target = $(config.target_success.dom);
                 $target.append(config.target_success.element_to_add.replace('__content__', dataReceived.content));
 
-                $('#modalForm').modal('hide');
+                //$('#modalForm').modal('hide');
             },
             error: function() {
-                $(config.button_validate.dom).removeClass(config.button_validate.waiting_class);
-                $(config.button_validate.dom).html(config.button_validate.originale_text);
+                $(this).html(originalText);
+                $(this).toggleClass(config.button_validate.class_waiting);
+                $(this).removeAttr('disabled');
             }
         });
     });
@@ -64,7 +69,8 @@ function dywee_handle_form_collection(container) {
 
 function dywee_handle_form_collection(container, userConfig) {
     var config = {
-        container_type: 'div',
+        container_type: 'table',
+        container_child: 'tbody',
         label: 'Element',
         allow_add: true,
         allow_delete: true,
@@ -116,10 +122,14 @@ function dywee_handle_form_collection(container, userConfig) {
         addCategory($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
-        $container.children('div').each(function() {
+        var child = config.container_type;
+        if (config.container_child != "") child = config.container_child;
+        $container.children(child).each(function() {
             if(config.allow_delete == true)
                 addDeleteLink($(this));
         });
+        $('.select2').select2();
+
     }
 
     // La fonction qui ajoute un formulaire Categorie
