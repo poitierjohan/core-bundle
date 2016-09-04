@@ -78,16 +78,10 @@ abstract class ParentController extends Controller
         return $this->entityClassNameWithNamespace;
     }
 
-    public function viewAction($id, $parameters = null)
+    public function viewAction($object, $parameters = null)
     {
-        $object = null;
-        if(isset($parameters['repository_method']))
-        {
-            $repository = $this->getDoctrine()->getRepository($this->repositoryName);
-            $method = $parameters['repository_method'];
-            $object = $repository->$method($id);
-        }
-        else $object = $this->getFromId($id);
+        if(is_numeric($object))
+            $object = $this->getFromId($object);
 
         return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityClassName) => $object)), $parameters);
     }
@@ -130,9 +124,9 @@ abstract class ParentController extends Controller
         return $this->handleForm(new $entityName(), $request, $parameters);
     }
 
-    public function updateAction($id, Request $request, $parameters = null)
+    public function updateAction($object, Request $request, $parameters = null)
     {
-        return $this->handleForm(is_numeric($id) ? $this->getFromId($id) : $id, $request, $parameters);
+        return $this->handleForm(is_numeric($object) ? $this->getFromId($object) : $object, $request, $parameters);
     }
 
     //Créer/gère le formulaire + ajout/modif dans la BDD
@@ -247,12 +241,13 @@ abstract class ParentController extends Controller
         return $this->handleForm($childEntity, $request, $parameters);
     }
 
-    public function deleteAction($id, Request $request, $parameters = null)
+    public function deleteAction($object, Request $request, $parameters = null)
     {
-        $item = $this->getFromId($id);
+        if(is_numeric($object))
+            $object = $this->getFromId($object);
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($item);
+        $em->remove($object);
 
         $em->flush();
 
