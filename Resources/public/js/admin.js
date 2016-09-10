@@ -108,7 +108,7 @@ function dywee_handle_form_collection(container, userConfig) {
 
         // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
         $addLink.click(function(e) {
-            addCategory($container);
+            addElement($container);
             e.preventDefault(); // évite qu'un # apparaisse dans l'URL
             return false;
         });
@@ -119,7 +119,7 @@ function dywee_handle_form_collection(container, userConfig) {
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
     if (index == 0 && config.auto_add == true) {
-        addCategory($container);
+        addElement($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
         var child = config.container_type;
@@ -133,13 +133,14 @@ function dywee_handle_form_collection(container, userConfig) {
     }
 
     // La fonction qui ajoute un formulaire Categorie
-    function addCategory($container) {
+    function addElement($container) {
         // Dans le contenu de l'attribut « data-prototype », on remplace :
         // - le texte "__name__label__" qu'il contient par le label du champ
         // - le texte "__name__" qu'il contient par le numéro du champ
-        //console.log('ici', $container);
-        var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
-            .replace(/__name__/g, index));
+        console.log('ici', $container);
+        var $prototype = $($container.data('prototype'));
+        $prototype.replace(/__name__label__/g, config.label+' n°' + (index+1))
+            .replace(/__name__/g, index);
 
         // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
         if(config.allow_delete)

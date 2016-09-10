@@ -1,0 +1,46 @@
+{% extends 'DyweeCoreBundle::admin.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+        {% for box in dashboard.boxes %}
+            <div class="{{ box.column }}">
+                <div class="box box-{{ box.type }}">
+                    <div class="box-header with-border">
+                        <h2 class="box-title">{{ box.title|trans }}</h2>
+                    </div>
+                    {% for element in box.body %}
+                        {% if element.boxBody == true %}
+                            <div class="box-body">
+                        {% endif %}
+
+                        {% if element.controller is defined and element.controller is not null %}
+                            {{ render(controller(element.controller)) }}
+                        {% endif %}
+
+                        {% if element.boxBody == true %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block footerJavascript %}
+    {% for jsElement in js %}
+        {% if jsElement.type == 'url' %}
+            {% if jsElement.url == 'absolute' %}
+                <script src="{{ jsElement.src }}"></script>
+            {% else %}
+            {% endif %}
+                <script src="{{ asset(jsElement.src) }}"></script>
+        {% elseif jsElement.type == 'script' %}
+            <script>
+                {{ jsElement.type }}
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

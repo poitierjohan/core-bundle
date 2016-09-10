@@ -8,24 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Dywee\CoreBundle\Event\AdminSidebarBuilderEvent;
 use Dywee\CoreBundle\DyweeCoreEvent;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CoreController extends Controller
 {
-    public function fakeRouteAction()
-    {
-        return new Response('fake route');
-        //TEST olivier
-    }
-
-
     public function sidebarAction()
     {
-    	
-	    /*if($activeWebsite->getType() == 'commerce')
-	        return $this->render('DyweeCoreBundle:Sidebar:commerce.html.twig');
-	    else if($activeWebsite->getType() == 'music')
-	        return $this->render('DyweeCoreBundle:Sidebar:music.html.twig');
-	    else return $this->render('DyweeCoreBundle:Sidebar:main.html.twig'); */
 	    $sidebar = array(
 	    	'admin' => array(
 	    		array(
@@ -73,6 +61,9 @@ class CoreController extends Controller
         return new Response('mail envoyé');
     }
 
+    /**
+     * @Route(path="robots.txt")
+     */
     public function robotsTxtAction()
     {
         return $this->render('DyweeCoreBundle::robots.txt.twig');
