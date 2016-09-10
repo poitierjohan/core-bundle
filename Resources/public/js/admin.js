@@ -7,6 +7,7 @@ function validate_ajax_form(userConfig)
 {
     var config = {
         form_name: 'MyFormName',
+        container_id: '#modalForm',
         target_success: {
             dom: '.#Target',
             element_to_add: '<tr>__content__</tr>' //__content__ will be replaced by the renderView from the controller
@@ -52,7 +53,7 @@ function validate_ajax_form(userConfig)
                 var $target = $(config.target_success.dom);
                 $target.append(config.target_success.element_to_add.replace('__content__', dataReceived.content));
 
-                //$('#modalForm').modal('hide');
+                $(config.container_id).modal('hide');
             },
             error: function() {
                 $(this).html(originalText);
@@ -108,7 +109,7 @@ function dywee_handle_form_collection(container, userConfig) {
 
         // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
         $addLink.click(function(e) {
-            addElement($container);
+            addCategory($container);
             e.preventDefault(); // évite qu'un # apparaisse dans l'URL
             return false;
         });
@@ -119,7 +120,7 @@ function dywee_handle_form_collection(container, userConfig) {
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
     if (index == 0 && config.auto_add == true) {
-        addElement($container);
+        addCategory($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
         var child = config.container_type;
@@ -133,14 +134,13 @@ function dywee_handle_form_collection(container, userConfig) {
     }
 
     // La fonction qui ajoute un formulaire Categorie
-    function addElement($container) {
+    function addCategory($container) {
         // Dans le contenu de l'attribut « data-prototype », on remplace :
         // - le texte "__name__label__" qu'il contient par le label du champ
         // - le texte "__name__" qu'il contient par le numéro du champ
-        console.log('ici', $container);
-        var $prototype = $($container.data('prototype'));
-        $prototype.replace(/__name__label__/g, config.label+' n°' + (index+1))
-            .replace(/__name__/g, index);
+        //console.log('ici', $container);
+        var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
+            .replace(/__name__/g, index));
 
         // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
         if(config.allow_delete)
