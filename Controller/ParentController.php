@@ -65,7 +65,7 @@ abstract class ParentController extends Controller
         $this->listName = lcfirst($this->entityClassName);
         if (substr($this->listName,-1) === "y")
             $this->listName = substr($this->listName,0,-1)."ies";
-        else
+        elseif(substr($this->listName, -1) != 's')
             $this->listName .= 's';
 
         $this->tableViewName = strtolower($this->entityClassNameUnderscored.'_table');
