@@ -1,5 +1,5 @@
 <?php
-// Dywee/CoreBundle/Form/SeoType.php
+
 namespace Dywee\CoreBundle\Form\Type;
 
 use Dywee\CMSBundle\Entity\Page;
@@ -15,10 +15,10 @@ class SeoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('metaTitle',          null,     array('required' => false))
-        ->add('metaDescription',    TextareaType::class, array('required' => false))
-        ->add('metaKeywords',       TextareaType::class, array('required' => false))
-        ->add('seoUrl',             null,     array('required' => false));
+            ->add('metaTitle', null, array('required' => false))
+            ->add('metaDescription', TextareaType::class, array('required' => false))
+            ->add('metaKeywords', TextareaType::class, array('required' => false))
+            ->add('seoUrl', null, array('required' => false));
 
         /*$builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
             $entity = $event->getData();
