@@ -31,15 +31,19 @@ class AdminDashboardBuilderEvent extends Event
 
     public function addElement($element)
     {
-        if(array_key_exists('key', $element) && array_key_exists($element['key'], $this->dashboard)){
-            $this->dashboard[$element['boxes']['key']] = array_merge($this->dashboard[$element['boxes']['key']], $element['boxes']);
-            if(array_key_exists('cards', $element)) {
-                $this->dashboard['cards'][$element['key']] = array_merge($this->dashboard[$element['cards']['key']], $element['cards']);
+        if(array_key_exists('boxes', $element)){
+            if(array_key_exists($element['key'], $this->dashboard['boxes'])){
+                $this->dashboard['boxes'][$element['key']] = array_merge($this->dashboard[$element['boxes']][$element['key']], $element['boxes']);
+            }
+            else{
+                $this->dashboard['boxes'][$element['key']] = $element['boxes'];
             }
         }
-        else{
-            $this->dashboard['boxes'][$element['key']] = $element['boxes'];
-            if(array_key_exists('cards', $element)) {
+        if(array_key_exists('cards', $element)){
+            if(array_key_exists($element['key'], $this->dashboard['cards'])){
+                $this->dashboard['cards'][$element['key']] = array_merge($this->dashboard[$element['cards']][$element['key']], $element['cards']);
+            }
+            else{
                 $this->dashboard['cards'][$element['key']] = $element['cards'];
             }
         }

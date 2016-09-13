@@ -17,8 +17,7 @@ class AdminController extends Controller
      */
     public function dashboardAction()
     {
-        $dashboard = array();
-        $event = new AdminDashboardBuilderEvent($dashboard, $this->getUser());
+        $event = new AdminDashboardBuilderEvent(array('boxes' => [], 'cards' => []), $this->getUser());
 
         $this->get('event_dispatcher')->dispatch(DyweeCoreEvent::BUILD_ADMIN_DASHBOARD, $event);
 
