@@ -31,9 +31,18 @@ class AdminDashboardBuilderEvent extends Event
 
     public function addElement($element)
     {
-        if(isset($element['key']) && array_key_exists($element['key'], $this->dashboard))
-            $this->dashboard[$element['key']]['boxes'] = array_merge($this->dashboard[$element['key']]['boxes'], $element['boxes']);
-        else $this->dashboard[$element['key']] = $element['boxes'];
+        if(array_key_exists('key', $element) && array_key_exists($element['key'], $this->dashboard)){
+            $this->dashboard[$element['boxes']['key']] = array_merge($this->dashboard[$element['boxes']['key']], $element['boxes']);
+            if(array_key_exists('cards', $element)) {
+                $this->dashboard['cards'][$element['key']] = array_merge($this->dashboard[$element['cards']['key']], $element['cards']);
+            }
+        }
+        else{
+            $this->dashboard['boxes'][$element['key']] = $element['boxes'];
+            if(array_key_exists('cards', $element)) {
+                $this->dashboard['cards'][$element['key']] = $element['cards'];
+            }
+        }
 
         return $this;
     }

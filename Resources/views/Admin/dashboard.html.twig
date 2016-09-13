@@ -2,9 +2,27 @@
 
 {% block body %}
 
+    {#   CARDS  #}
+
     <div class="row">
-        {% for bundle in dashboard %}
-            {% for box in bundle %}
+        {% for cards in dashboard.cards %}
+            {% for card in cards %}
+                {% if card.controller is defined and card.controller is not null %}
+                    <div class="col-lg-3 col-md-6">
+                        {{ render(controller(card.controller)) }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    </div>
+
+
+    {#   BOXES   #}
+
+    <div class="row">
+        {% for boxes in dashboard.boxes %}
+            {% for box in boxes %}
                 <div class="{{ box.column }}">
                     <div class="box box-{{ box.type }}">
                         <div class="box-header with-border">
@@ -27,6 +45,7 @@
                 </div>
             {% endfor %}
         {% endfor %}
+
     </div>
 
 {% endblock %}
