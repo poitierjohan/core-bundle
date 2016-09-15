@@ -129,4 +129,9 @@ trait Seo{
         return $this->seoUrl;
     }
 
+    public function getUrl()
+    {
+        return $this->getSeoUrl() ?? $this->getId();
+    }
+
 }
