@@ -104,7 +104,8 @@ like this :
 ```javascript
 <script>
 var personnalConfig = {
-    container_type: 'div',
+    container_type: 'table',
+    container_child: 'tbody',
     label: 'My element',
     allow_add: true,
     allow_delete: true,
