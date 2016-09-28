@@ -12,36 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CoreController extends Controller
 {
-    public function sidebarAction()
-    {
-	    $sidebar = array(
-	    	'admin' => array(
-	    		array(
-	    			'type' => 'header',
-	    			'label' => 'main navigation'
-	    			),
-	    		array(
-	    			'icon' => 'fa fa-home',
-	    			'label' => 'Accueil',
-	    			'route' => $this->generateUrl('admin_dashboard')
-	    			),
-	    		),
-	    	'superAdmin' => array(
-	    		array(
-	    			'type' => 'header',
-	    			'label' => 'super admin'
-	    			)
-	    		)
-	    	);
-
-	    $event = new AdminSidebarBuilderEvent($sidebar, $this->getUser());
-
-	    $this->get('event_dispatcher')->dispatch(DyweeCoreEvent::BUILD_ADMIN_SIDEBAR, $event);
-
-
-	    return $this->render('DyweeCoreBundle:Sidebar:sidebar.html.twig', array('sidebar' => $event->getSidebar()));
-    }
-
     public function indexAction()
     {
         return $this->redirect($this->generateUrl('cms_homepage'));

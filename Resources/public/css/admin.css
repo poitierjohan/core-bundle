@@ -26,6 +26,11 @@
 	margin-right: 4px;
 }
 
+.actions-left, .action-left{
+	float: left;
+	margin-top: 24px;
+}
+
 .separator{
 	margin: 0 6px;
 }

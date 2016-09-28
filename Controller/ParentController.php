@@ -161,27 +161,7 @@ abstract class ParentController extends Controller
 
             $request->getSession()->getFlashBag()->set('success', $this->entityClassName ?? 'Objet' . ' correctement ' . ($new ? 'ajouté' : 'modifié'));
 
-            if(isset($parameters['redirectTo']))
-            {
-                if($parameters['redirectTo'] === 'referer'){
-                    return $this->redirect($this->getPreviousRoute($request));
-                }
-                if(isset($parameters['routingArgs'], $parameters['routingArgs']['id']) && $parameters['routingArgs']['id'] === 'object_id'){
-                    $parameters['routingArgs']['id'] = $object->getId();
-                }
-
-                return $this->redirect($this->generateUrl($parameters['redirectTo'], isset($parameters['routingArgs']) ? $parameters['routingArgs'] : null));
-            }
-            elseif(isset($parameters['return']) && $parameters['return'] === 'bool'){
-                return true;
-            }
-
-            if (method_exists($object, 'getParentEntity') && $object->getParentEntity()->getId()){
-                return $this->redirect($this->generateUrl($this->tableViewName, array('id' => $object->getParentEntity()->getId())));
-            }
-            else{
-                return $this->redirect($this->generateUrl($this->tableViewName));
-            }
+            return $this->handleRedirection($parameters, $request, $object);
         }
 
         return $this->handleView([
@@ -189,7 +169,34 @@ abstract class ParentController extends Controller
             'data' => [
                 'form' => $form->createView()
             ]
-        ]);
+        ], $parameters);
+    }
+
+    public function handleRedirection($parameters, $request, $object = null)
+    {
+        if(array_key_exists('redirectTo', $parameters))
+        {
+            if($parameters['redirectTo'] === 'referer'){
+                return $this->redirect($this->getPreviousRoute($request));
+            }
+            if(isset($parameters['routingArgs'], $parameters['routingArgs']['id']) && $parameters['routingArgs']['id'] === 'object_id'){
+                $parameters['routingArgs']['id'] = $object->getId();
+            }
+
+            return $this->redirect($this->generateUrl($parameters['redirectTo'], array_key_exists('routingArgs', $parameters) ? $parameters['routingArgs'] : array()));
+        }
+        elseif(array_key_exists('return', $parameters) && $parameters['return'] === 'bool'){
+            return true;
+        }
+
+        elseif (method_exists($object, 'getParentEntity') && $object->getParentEntity()->getId()){
+            return $this->redirect($this->generateUrl($this->tableViewName, array('id' => $object->getParentEntity()->getId())));
+        }
+        else{
+            return $this->redirect($this->generateUrl($this->tableViewName));
+        }
+
+        return false;
     }
 
     public function tableFromParentAction($id, $parameters = null)
@@ -259,9 +266,7 @@ abstract class ParentController extends Controller
 
         $this->get('session')->getFlashBag()->set('success', $message);
 
-        if($parameters['redirectTo'] === 'referer')
-            return $this->redirect($this->getPreviousRoute($request));
-        return $this->redirect($this->generateUrl($this->tableViewName));
+        return $this->handleRedirection();
     }
 
     public function handleView($mainParameters, $parameters = null)
@@ -269,10 +274,13 @@ abstract class ParentController extends Controller
         $parentPath = isset($parameters['viewFolder']) ? $this->bundleName.':'.$parameters['viewFolder'] : str_replace('\\', '', $this->repositoryName);
         $fileName = isset($mainParameters['view']) ? $mainParameters['view'] : 'dashboard';
 
+        //TODO $parameters['add_data'] deprecated
+
         $data =
             array_merge(
                 isset($mainParameters['data']) ? $mainParameters['data'] : array(),
-                isset($parameters['add_data']) ? $parameters['add_data'] : array()
+                isset($parameters['add_data']) ? $parameters['add_data'] : array(),
+                isset($parameters['data']) ? $parameters['data'] : array()
             )
         ;
         return $this->render($parentPath.':'.$fileName.'.html.twig', $data);

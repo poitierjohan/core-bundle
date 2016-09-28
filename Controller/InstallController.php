@@ -15,30 +15,6 @@ class InstallController extends Controller
     public function installAction()
     {
         $em = $this->getDoctrine()->getManager();
-        //Liste des pays
-        /*$country = new Country();
-        $country->setName('Belgique');
-        $country->setIso('BE');
-        $country->setPhonePrefix(32);
-        $country->setState(1);
-        $country->setVatRate(21);
-
-        $em->persist($country);
-        $em->flush();
-
-
-
-        //Liste des réseaux sociaux pris en charge
-
-        $socialNames = array('Facebook', 'Twitter', 'Google+', 'Instagram');
-
-        foreach($socialNames as $socialName)
-        {
-            $social = new SocialItem();
-            $social->setName($socialName);
-            $em->persist($social);
-        }
-        $em->flush();*/
 
         $this->installCMS();
 

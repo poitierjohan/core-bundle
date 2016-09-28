@@ -48,35 +48,7 @@ Just extend the 'DyweeCoreBundle:Templates:admin.html.twig' template from your t
 
 ## Using ParentController
 
-## Using the preload
-
-The preload is very helpful if you want to catch distant content before the user wants it.
-If you have modals loading content in xlr, it can preload the content and do what you want.
-
-
-```javascript
-<script>
-$('#my-btn-id').preload(callback(data[, settings]));
-</script>
-```
-
-just pass the callback you want to execute when you click on the button previously preloaded:
-```javascript
-callback(data){
-
-}
-```
-
-For more flexibility, you can pass options instead of callback. Just integrate the callback in the options
-```javascript
-var options = {
-    route: null, //a symfony route
-    routingData: {}, //an array of symfony routing arguments
-    callback: null, //your callback function
-    compiledRoute: null, //the url of the resource to preload
-}
-```
-
+## Using the modal preload
 
 ## Js form collection handling
 
