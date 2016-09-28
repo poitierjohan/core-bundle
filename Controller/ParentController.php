@@ -129,7 +129,7 @@ abstract class ParentController extends Controller
     }
 
     //Créer/gère le formulaire + ajout/modif dans la BDD
-    public function handleForm($object, Request $request, $parameters = null)
+    protected function handleForm($object, Request $request, $parameters = null)
     {
         $new = $object->getId() === null;
 
@@ -164,6 +164,7 @@ abstract class ParentController extends Controller
             return $this->handleRedirection($parameters, $request, $object);
         }
 
+        //dump('2', $parameters);
         return $this->handleView([
             'view' => $new ? 'add' : 'edit',
             'data' => [
@@ -235,7 +236,10 @@ abstract class ParentController extends Controller
 
         $reflection = new \ReflectionClass($parentEntity);
 
-        $parentRepositoryName = explode(':', $this->repositoryName)[0].':'.$reflection->getShortName();
+        if ($reflection->getShortName() == 'User')
+            $parentRepositoryName = "UserBundle:User";
+        else
+            $parentRepositoryName = explode(':', $this->repositoryName)[0].':'.$reflection->getShortName();
         $parentEntity = $this->getDoctrine()->getRepository($parentRepositoryName)->findOneById($id);
 
         //On set l'entité parente dans l'entité à ajouter
@@ -247,6 +251,7 @@ abstract class ParentController extends Controller
 
         $parameters['redirectUrlParameters'] = array('id' => $parentEntity->getId());
 
+        //dump('1', $parameters);
         return $this->handleForm($entity, $request, $parameters);
     }
 
@@ -271,6 +276,7 @@ abstract class ParentController extends Controller
 
     public function handleView($mainParameters, $parameters = null)
     {
+        //dump('3', $parameters);
         $parentPath = isset($parameters['viewFolder']) ? $this->bundleName.':'.$parameters['viewFolder'] : str_replace('\\', '', $this->repositoryName);
         $fileName = isset($mainParameters['view']) ? $mainParameters['view'] : 'dashboard';
 
