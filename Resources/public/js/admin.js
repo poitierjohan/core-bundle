@@ -135,12 +135,16 @@ function dywee_handle_form_collection(container, userConfig) {
 
     // La fonction qui ajoute un formulaire Categorie
     function addCategory($container) {
-        // Dans le contenu de l'attribut « data-prototype », on remplace :
-        // - le texte "__name__label__" qu'il contient par le label du champ
-        // - le texte "__name__" qu'il contient par le numéro du champ
-        //console.log('ici', $container);
-        var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
-            .replace(/__name__/g, index));
+
+        try
+        {
+            var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
+                .replace(/__name__/g, index));
+        }
+        catch(e)
+        {
+            var $prototype = $($container.attr('data-prototype'));
+        }
 
         // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
         if(config.allow_delete)
