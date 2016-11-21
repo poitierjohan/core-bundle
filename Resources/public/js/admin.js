@@ -77,6 +77,7 @@ function dywee_handle_form_collection(container, userConfig) {
         allow_delete: true,
         auto_add: true, //for add imeditalty a new element if count = 0
         add_btn: {
+            container_class: '',
             target: '',
             'class': 'btn btn-default',
             icon: '',
@@ -100,7 +101,12 @@ function dywee_handle_form_collection(container, userConfig) {
     // On ajoute un lien pour ajouter une nouvelle catégorie
     if(config.allow_add == true)
     {
-        var $addLink = $('<a href="#" id="add_category" class="'+config.add_btn.class+'">'+config.add_btn.text+'</a>');
+        var $containerAddBtn = $('<div></div>');
+        if (config.add_btn.container_class != '')
+            $containerAddBtn.addClass(config.add_btn.container_class);
+
+        var $addLink = $containerAddBtn.append('<a href="#" id="add_category" class="'+config.add_btn.class+'">'+config.add_btn.icon+' '+config.add_btn.text+'</a>');
+
 
         if (config.add_btn.target == '')
             $container.append($addLink);
@@ -117,6 +123,7 @@ function dywee_handle_form_collection(container, userConfig) {
 
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
     var index = $container.find(':input').length;
+    console.log(index);
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
     if (index == 0 && config.auto_add == true) {
