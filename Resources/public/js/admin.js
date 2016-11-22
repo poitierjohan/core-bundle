@@ -132,7 +132,11 @@ function dywee_handle_form_collection(container, userConfig) {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
         var child = config.container_type;
         if (config.container_child != "") child = config.container_child;
-        $container.children(child).each(function() {
+        var $children = $container.children(child);
+        if (config.container_type == 'table')
+            $children = $container.children(child).children('tr');
+        $children.each(function() {
+            console.log($(this));
             if(config.allow_delete == true)
                 addDeleteLink($(this));
         });
