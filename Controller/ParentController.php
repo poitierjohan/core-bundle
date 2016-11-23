@@ -82,7 +82,7 @@ abstract class ParentController extends Controller
     public function viewAction($object, $parameters = null)
     {
         if(is_numeric($object))
-            $object = $this->getFromId($object);
+            $object = $this->getFromId($object, $parameters);
 
         return $this->handleView(array('view' => 'view', 'data' => array(lcfirst($this->entityClassName) => $object)), $parameters);
     }
@@ -294,9 +294,12 @@ abstract class ParentController extends Controller
         return $request->server->get('HTTP_REFERER');
     }
 
-    public function getFromId($id)
+    public function getFromId($id, $parameters = null)
     {
-        $object = $this->getDoctrine()->getRepository($this->repositoryName)->findOneById($id);
+        $repository = $this->getDoctrine()->getRepository($this->repositoryName);
+
+        $method = (isset($parameters["repository_method"])) ? $parameters["repository_method"] : 'findOneById';
+        $object = $repository->$method($id);
 
         if(!$object)
             throw $this->createNotFoundException('Objet non trouvé');
