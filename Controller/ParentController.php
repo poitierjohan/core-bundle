@@ -234,11 +234,8 @@ abstract class ParentController extends Controller
         $parentEntity = $entity->getParentEntity();
 
         $reflection = new \ReflectionClass($parentEntity);
-        
-        //Ancien code :
-        //$parentRepositoryName = explode(':', $this->repositoryName)[0].':'.$reflection->getShortName();
-        //Remplacé par celui-ci car erreur dans la récupération de l'entité parente (mauvais namespace)
-        $parentRepositoryName = explode('\\', $reflection->getName())[0].':'.$reflection->getShortName();
+
+        $parentRepositoryName = explode(':', $this->repositoryName)[0].':'.$reflection->getShortName();
         $parentEntity = $this->getDoctrine()->getRepository($parentRepositoryName)->findOneById($id);
 
         //On set l'entité parente dans l'entité à ajouter
@@ -286,6 +283,7 @@ abstract class ParentController extends Controller
                 isset($parameters['data']) ? $parameters['data'] : array()
             )
         ;
+
         return $this->render($parentPath.':'.$fileName.'.html.twig', $data);
     }
 

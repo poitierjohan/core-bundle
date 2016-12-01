@@ -14,8 +14,7 @@
   ],
   "require": {
     "php": ">=7.0.0",
-    "gedmo/doctrine-extensions": "^2.4",
-    "vich/uploader-bundle": "1.1.0"
+    "gedmo/doctrine-extensions": "^2.4"
   },
   "autoload": {
     "psr-4": {
