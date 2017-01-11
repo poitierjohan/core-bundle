@@ -136,6 +136,7 @@
                         </ul>
                     </li>#}
                     <!-- User Account: style can be found in dropdown.less -->
+                    {#
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('bundles/dyweecore/images/avatar5.png') }}" class="user-image" alt="User Image"/>
@@ -147,7 +148,7 @@
                                 <img src="{{ asset('bundles/dyweecore/images/avatar5.png') }}" class="img-circle" alt="User Image" />
                                 <p>
                                     {{ app.user.firstName }} {{ app.user.lastName }} - Website Administrateur
-                                    {#<small>Membre depuis Nov. 2012</small>#}
+                                    {#<small>Membre depuis Nov. 2012</small>
                                 </p>
                             </li>
                             <!-- Menu Body -->
@@ -160,7 +161,7 @@
                                 </div>
                                 <div class="col-xs-4 text-center">
                                     <a href="#">Friends</a>
-                                </div>#}
+                                </div>
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
@@ -168,11 +169,12 @@
                                     <a href="{{ path('fos_user_profile_show') }}" class="btn btn-default btn-flat">Profil</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="{{ path('logout') }}" class="btn btn-default btn-flat">Déconnexion</a>
+                                    <a href="{{ path('fos_user_security_logout') }}" class="btn btn-default btn-flat">Déconnexion</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
+                    #}
                     <!-- Control Sidebar Toggle Button -->
                     <li>
                         <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -212,6 +214,7 @@
                 </form>#}
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
+                {#
                 <ul class="sidebar-menu">
                     <li class="header">MAIN NAVIGATION</li>
                     <li class="active">
@@ -233,7 +236,7 @@
                     <li class="treeview">
                         <a href="pages/widgets.html">
                             <i class="fa fa-beer"></i> <span>Produits</span>
-                            {#<small class="label pull-right bg-green">new</small>#}
+                            {#<small class="label pull-right bg-green">new</small>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -250,7 +253,7 @@
                         <a href="#">
                             <i class="fa fa-shopping-cart"></i>
                             <span>Commandes</span>
-                            {#<span class="label label-primary pull-right">4</span>#}
+                            {#<span class="label label-primary pull-right">4</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -275,7 +278,7 @@
                     <li class="treeview">
                         <a href="pages/widgets.html">
                             <i class="fa fa-users"></i> <span>Membres</span>
-                            {#<small class="label pull-right bg-green">new</small>#}
+                            {#<small class="label pull-right bg-green">new</small>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -304,6 +307,7 @@
                         </li>
                     {% endif %}
                 </ul>
+                #}
             </section>
             <!-- /.sidebar -->
         </aside>
