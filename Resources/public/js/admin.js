@@ -91,10 +91,12 @@ function dywee_handle_form_collection(container, userConfig) {
         }
     };
     //Réécriture des paramètres
-    $.each(userConfig, function(key, value)
-    {
-        config[key] = userConfig[key];
-    });
+    if(userConfig){
+        $.each(userConfig, function(key, value)
+        {
+            config[key] = userConfig[key];
+        });
+    }
 
     var $container = $(config.container_type+'#'+container);
 
@@ -123,7 +125,6 @@ function dywee_handle_form_collection(container, userConfig) {
 
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
     var index = $container.find(':input').length;
-    console.log(index);
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
     if (index == 0 && config.auto_add == true) {
@@ -136,17 +137,16 @@ function dywee_handle_form_collection(container, userConfig) {
         if (config.container_type == 'table')
             $children = $container.children(child).children('tr');
         $children.each(function() {
-            console.log($(this));
             if(config.allow_delete == true)
                 addDeleteLink($(this));
         });
-        $('.select2').select2();
+
+        //$('.select2').select2();
 
     }
 
     // La fonction qui ajoute un formulaire Categorie
     function addCategory($container) {
-
         try
         {
             var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
@@ -167,7 +167,7 @@ function dywee_handle_form_collection(container, userConfig) {
         // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
         index++;
 
-        $('.select2').select2();
+        //$('.select2').select2();
     }
 
     // La fonction qui ajoute un lien de suppression d'une catégorie
@@ -192,7 +192,7 @@ function dywee_handle_form_collection(container, userConfig) {
         });
     }
 
-    $('.select2').select2();
+    //$('.select2').select2();
 }
 
 function dywee_handle_delete_btn() {
@@ -264,7 +264,7 @@ function dywee_reset_handler(handler) {
 $(document).ready(function() {
     //Gestion des boutons delete
     dywee_handle_delete_btn();
-    $('.select2').select2();
+    //$('.select2').select2();
 });
 
 (function ( $ ) {
