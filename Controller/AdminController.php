@@ -15,6 +15,8 @@ class AdminController extends Controller
     /**
      * @Route(name="dywee_admin_homepage", path="/admin")  //deprecated route
      * @Route(name="admin_dashboard", path="/admin")
+     * @Route(name="admin", path="/admin")
+     * TODO bloquer l'accès si pas connecté ou pas les droits admin
      */
     public function dashboardAction()
     {
@@ -28,6 +30,10 @@ class AdminController extends Controller
         ));
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * TODO bloquer l'accès si pas connecté ou pas les droits admin
+     */
     public function navbarAction()
     {
         $event = new AdminNavbarBuilderEvent(array(), $this->getUser());
@@ -37,6 +43,10 @@ class AdminController extends Controller
         return $this->render('DyweeCoreBundle:Admin:navbar.html.twig', array('navbar' => $event->getNavbar()));
     }
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * TODO bloquer l'accès si pas connecté ou pas les droits admin
+     */
     public function sidebarAction()
     {
         $sidebar = array(
