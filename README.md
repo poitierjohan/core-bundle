@@ -42,9 +42,104 @@ Just extend the 'DyweeCoreBundle:Templates:admin.html.twig' template from your t
 ```
 
 
-### How to customize the navbar
+## How to customize the administration
 
-### How to customize the left sidebar
+You can easily add item to the admin dashboard/navbar/sidebar just by using the Dywee Custom events.
+
+There are 3 custom events:
+* AdminDashboardBuilderEvent
+* AdminNavbarBuilderEvent
+* AdminSidebarBuilderEvent
+
+So, what you have to do, is just to create a listener:
+
+```php
+<?php
+
+namespace YourBundle\Listener;
+
+use Dywee\AddressBundle\Service\AdminSidebarHandler;
+use Dywee\CoreBundle\DyweeCoreEvent;
+use Dywee\CoreBundle\Event\AdminSidebarBuilderEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+class AdminSidebarBuilderListener implements EventSubscriberInterface{
+    private $adminSidebarHandler;
+
+    public function __construct(AdminSidebarHandler $adminSidebarHandler)
+    {
+        $this->adminSidebarHandler = $adminSidebarHandler;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        // return the subscribed events, their methods and priorities
+        return array(
+            DyweeCoreEvent::BUILD_ADMIN_SIDEBAR => array('addElementToSidebar', -10)
+        );
+    }
+
+    public function addElementToSidebar(AdminSidebarBuilderEvent $adminSidebarBuilderEvent)
+    {
+        $adminSidebarBuilderEvent->addAdminElement($this->adminSidebarHandler->getSideBarMenuElement());
+    }
+
+}
+```
+
+And the dedicated SidebarHandler
+
+```php
+<?php
+namespace YourBundle\Service;
+
+use Symfony\Component\Routing\Router;
+
+class AdminSidebarHandler
+{
+
+    private $router;
+
+    public function __construct(Router $router)
+    {
+        $this->router = $router;
+    }
+
+    public function getSideBarMenuElement()
+    {
+        $menu = array(
+            'key' => 'address',
+            'icon' => 'fa fa-map-marker',
+            'label' => 'address.sidebar.label',
+            'children' => array(
+                array(
+                    'icon' => 'fa fa-list-alt',
+                    'label' => 'address.sidebar.table',
+                    'route' => $this->router->generate('address_admin_table')
+                ),
+            )
+        );
+
+        return $menu;
+    }
+}
+```
+
+Dont forget to register your 2 classes
+ 
+```yaml
+your_bundle.your_custom_sidebar_listener:
+    class: YourBundle\Listener\AdminSidebarBuilderListener
+    arguments: [ '@your_bundle.your_custom_sidebar_handler' ]
+    tags:
+        - { name: kernel.event_subscriber }
+
+your_bundle.your_custom_sidebar_handler:
+    class: YourBundle\Service\AdminSidebarHandler
+    arguments: [ '@router' ]
+```
+
+## The CoreBundle and javascript
 
 ## Using ParentController
 
