@@ -68,7 +68,7 @@
                 {% if item.icon is defined and item.icon != '' %}
                     <i class="{{ item.icon }}"></i>
                 {% endif %}
-                <span>{{ item.label }}</span>
+                <span>{{ item.label|trans }}</span>
             </a>
         </li>
     {% endif %}
