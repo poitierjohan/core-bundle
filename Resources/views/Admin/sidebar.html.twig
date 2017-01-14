@@ -63,7 +63,7 @@
             </ul>
         </li>
     {% else %}
-        <li class="active">
+        <li{% if item.active is defined and item.active %} class="active"{% endif %}>
             <a href="{{ item.route }}">
                 {% if item.icon is defined and item.icon != '' %}
                     <i class="{{ item.icon }}"></i>
