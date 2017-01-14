@@ -77,7 +77,6 @@ function dywee_handle_form_collection(container, userConfig) {
         allow_delete: true,
         auto_add: true, //for add imeditalty a new element if count = 0
         add_btn: {
-            container_class: '',
             target: '',
             'class': 'btn btn-default',
             icon: '',
@@ -91,24 +90,17 @@ function dywee_handle_form_collection(container, userConfig) {
         }
     };
     //Réécriture des paramètres
-    if(userConfig){
-        $.each(userConfig, function(key, value)
-        {
-            config[key] = userConfig[key];
-        });
-    }
+    $.each(userConfig, function(key, value)
+    {
+        config[key] = userConfig[key];
+    });
 
     var $container = $(config.container_type+'#'+container);
 
     // On ajoute un lien pour ajouter une nouvelle catégorie
     if(config.allow_add == true)
     {
-        var $containerAddBtn = $('<div></div>');
-        if (config.add_btn.container_class != '')
-            $containerAddBtn.addClass(config.add_btn.container_class);
-
-        var $addLink = $containerAddBtn.append('<a href="#" id="add_category" class="'+config.add_btn.class+'">'+config.add_btn.icon+' '+config.add_btn.text+'</a>');
-
+        var $addLink = $('<a href="#" id="add_category" class="'+config.add_btn.class+'">'+config.add_btn.text+'</a>');
 
         if (config.add_btn.target == '')
             $container.append($addLink);
@@ -133,20 +125,17 @@ function dywee_handle_form_collection(container, userConfig) {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
         var child = config.container_type;
         if (config.container_child != "") child = config.container_child;
-        var $children = $container.children(child);
-        if (config.container_type == 'table')
-            $children = $container.children(child).children('tr');
-        $children.each(function() {
+        $container.children(child).each(function() {
             if(config.allow_delete == true)
                 addDeleteLink($(this));
         });
-
-        //$('.select2').select2();
+        $('.select2').select2();
 
     }
 
     // La fonction qui ajoute un formulaire Categorie
     function addCategory($container) {
+
         try
         {
             var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, config.label+' n°' + (index+1))
@@ -167,7 +156,7 @@ function dywee_handle_form_collection(container, userConfig) {
         // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
         index++;
 
-        //$('.select2').select2();
+        $('.select2').select2();
     }
 
     // La fonction qui ajoute un lien de suppression d'une catégorie
@@ -192,7 +181,7 @@ function dywee_handle_form_collection(container, userConfig) {
         });
     }
 
-    //$('.select2').select2();
+    $('.select2').select2();
 }
 
 function dywee_handle_delete_btn() {
@@ -264,7 +253,7 @@ function dywee_reset_handler(handler) {
 $(document).ready(function() {
     //Gestion des boutons delete
     dywee_handle_delete_btn();
-    //$('.select2').select2();
+    $('.select2').select2();
 });
 
 (function ( $ ) {
