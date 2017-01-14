@@ -98,7 +98,7 @@ function dywee_handle_form_collection(container, userConfig) {
     var $container = $(config.container_type+'#'+container);
 
     // On ajoute un lien pour ajouter une nouvelle catégorie
-    if(config.allow_add == true)
+    if(config.allow_add)
     {
         var $addLink = $('<a href="#" id="add_category" class="'+config.add_btn.class+'">'+config.add_btn.text+'</a>');
 
@@ -119,14 +119,14 @@ function dywee_handle_form_collection(container, userConfig) {
     var index = $container.find(':input').length;
 
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
-    if (index == 0 && config.auto_add == true) {
+    if (index == 0 && config.auto_add) {
         addCategory($container);
     } else {
         // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
         var child = config.container_type;
         if (config.container_child != "") child = config.container_child;
         $container.children(child).each(function() {
-            if(config.allow_delete == true)
+            if(config.allow_delete)
                 addDeleteLink($(this));
         });
         $('.select2').select2();
@@ -165,7 +165,7 @@ function dywee_handle_form_collection(container, userConfig) {
         if (config.remove_btn.icon == '')
             $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'">'+config.remove_btn.text+'</a>');
         else
-            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i>'+config.remove_btn.text+'</a>');
+            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i> '+config.remove_btn.text+'</a>');
 
         // Ajout du lien
         if (config.remove_btn.target == '')
@@ -336,7 +336,7 @@ $(document).ready(function() {
             console.log(btn.attr('href'));
             if(btn.attr('href') != '#' && btn.attr('href') != '')
                 settings.compiledRoute = btn.attr('href');
-            if(settings.route != null)
+            if(settings.route)
             {
                 if($.isEmptyObject(settings.routingData))
                     settings.compiledRoute = Routing.generate(settings.route);

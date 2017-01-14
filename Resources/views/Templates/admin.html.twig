@@ -8,9 +8,10 @@
 
     {#Pour la version en ligne#}
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    <link href="{{ asset('bundles/dyweecore/plugins/pace/pace.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/dyweecore/plugins/pace/pace.min.css') }}" rel="stylesheet" />
 
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
@@ -47,8 +48,6 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
-
-    <script src="https://use.fontawesome.com/d427c6f036.js"></script>
 
     {% block google_analytics %}
     {% if app.environment == 'prod' and ga_tacking is defined and ga_tracking is not null %}
@@ -526,14 +525,17 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+{#
 <script src="https://npmcdn.com/react@15.3.1/dist/react.js"></script>
 <script src="https://npmcdn.com/react-dom@15.3.1/dist/react-dom.js"></script>
 <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+#}
 
-
+{#
 <script src="{{ asset('bundles/dyweecore/js/holder.js') }}"></script>
+#}
 
 <script src="{{ asset('bundles/dyweecore/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('bundles/dyweecore/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
@@ -542,12 +544,16 @@
 <script src="{{ asset('bundles/dyweecore/plugins/fastclick/fastclick.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('bundles/dyweecore/js/app.min.js') }}"></script>
-<script src="{{ asset('bundles/dyweecore/js/admin.js') }}"></script>
+<script src="{{ asset('bundles/dyweecore/js/admin.min.js') }}"></script>
 <!-- Sparkline -->
 <script src="{{ asset('bundles/dyweecore/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
+
+{#
 <!-- jvectormap -->
 <script src="{{ asset('bundles/dyweecore/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
 <script src="{{ asset('bundles/dyweecore/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+
+#}
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
 <!-- SlimScroll 1.3.0 -->
@@ -555,7 +561,9 @@
 <!-- ChartJS 1.0.1 -->
 <script src="{{ asset('bundles/dyweecore/plugins/chartjs/Chart.min.js') }}"></script>
 
-{#<script src="{{ asset('bundles/dyweecore/plugins/pace/pace.js') }}"></script>#}
+{#
+<script src="{{ asset('bundles/dyweecore/plugins/pace/pace.js') }}"></script>
+#}
 
 <script src="{{ asset('bundles/dyweecore/js/imgLiquid.min.js') }}"></script>
 
@@ -569,21 +577,18 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.17/angular2.min.js"></script>
-
-
-<script src="{{ asset('bundles/dyweecore/js/plugins/canvas-to-blob.min.js') }}"></script>
 <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
      This must be loaded before fileinput.min.js -->
 <script src="{{ asset('bundles/dyweecore/js/plugins/sortable.min.js') }}"></script>
 <!-- the main fileinput plugin file -->
 <script src="{{ asset('bundles/dyweecore/js/fileinput.min.js') }}"></script>
 
-{#<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>#}
 
+{#
 <script>
-    //$(document).ajaxStart(function() { Pace.restart(); });
+    $(document).ajaxStart(function() { Pace.restart(); });
 </script>
+#}
 
 {% block footerJavascript %}
     <script>
