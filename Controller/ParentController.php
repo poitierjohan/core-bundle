@@ -235,7 +235,8 @@ abstract class ParentController extends Controller
 
         $reflection = new \ReflectionClass($parentEntity);
 
-        $parentRepositoryName = explode(':', $this->repositoryName)[0].':'.$reflection->getShortName();
+        //Get the parent entity namespace TestBundle\Entity and explode by "\", get [0] element
+        $parentRepositoryName = explode('\\', $reflection->getNamespaceName())[0].':'.$reflection->getShortName();
         $parentEntity = $this->getDoctrine()->getRepository($parentRepositoryName)->findOneById($id);
 
         //On set l'entité parente dans l'entité à ajouter
