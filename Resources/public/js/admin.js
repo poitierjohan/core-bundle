@@ -165,7 +165,7 @@ function dywee_handle_form_collection(container, userConfig) {
         if (config.remove_btn.icon == '')
             $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'">'+config.remove_btn.text+'</a>');
         else
-            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i> '+config.remove_btn.text+'</a>');
+            $deleteLink = $('<a href="#" class="'+config.remove_btn.class+'"><i class="'+config.remove_btn.icon+'"></i>'+config.remove_btn.text+'</a>');
 
         // Ajout du lien
         if (config.remove_btn.target == '')
@@ -336,7 +336,7 @@ $(document).ready(function() {
             console.log(btn.attr('href'));
             if(btn.attr('href') != '#' && btn.attr('href') != '')
                 settings.compiledRoute = btn.attr('href');
-            if(settings.route)
+            if(settings.route != null)
             {
                 if($.isEmptyObject(settings.routingData))
                     settings.compiledRoute = Routing.generate(settings.route);
