@@ -33,7 +33,7 @@ class AdminDashboardBuilderEvent extends Event
     {
         if(array_key_exists('boxes', $element)){
             if(array_key_exists($element['key'], $this->dashboard['boxes'])){
-                $this->dashboard['boxes'][$element['key']] = array_merge($this->dashboard[$element['boxes']][$element['key']], $element['boxes']);
+                $this->dashboard['boxes'][$element['key']] = array_merge($this->dashboard['boxes'][$element['key']], $element['boxes']);
             }
             else{
                 $this->dashboard['boxes'][$element['key']] = $element['boxes'];
@@ -41,7 +41,7 @@ class AdminDashboardBuilderEvent extends Event
         }
         if(array_key_exists('cards', $element)){
             if(array_key_exists($element['key'], $this->dashboard['cards'])){
-                $this->dashboard['cards'][$element['key']] = array_merge($this->dashboard[$element['cards']][$element['key']], $element['cards']);
+                $this->dashboard['cards'][$element['key']] = array_merge($this->dashboard['cards'][$element['key']], $element['cards']);
             }
             else{
                 $this->dashboard['cards'][$element['key']] = $element['cards'];
