@@ -267,7 +267,7 @@ abstract class ParentController extends Controller
 
         $this->get('session')->getFlashBag()->set('success', $message);
 
-        return $this->handleRedirection();
+        return $this->handleRedirection($parameters, $request);
     }
 
     public function handleView($mainParameters, $parameters = null)
