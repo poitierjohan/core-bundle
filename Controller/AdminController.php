@@ -6,14 +6,13 @@ use Dywee\CoreBundle\DyweeCoreEvent;
 use Dywee\CoreBundle\Event\AdminDashboardBuilderEvent;
 use Dywee\CoreBundle\Event\AdminNavbarBuilderEvent;
 use Dywee\CoreBundle\Event\AdminSidebarBuilderEvent;
+use FOS\RestBundle\Controller\Annotations\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
-
 
 class AdminController extends Controller
 {
     /**
-     * @Route(name="dywee_admin_homepage", path="/admin")  //deprecated route
+     * @Route(name="dywee_admin_homepage", path="/admin")  // route name deprecated
      * @Route(name="admin_dashboard", path="/admin")
      * @Route(name="admin", path="/admin")
      * TODO bloquer l'accès si pas connecté ou pas les droits admin
