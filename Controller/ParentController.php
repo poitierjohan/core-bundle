@@ -163,9 +163,15 @@ abstract class ParentController extends Controller
 
             return $this->handleRedirection($parameters, $request, $object);
         }
+        
+        $view = $new ? 'add' : 'edit';
+        if (isset($parameters['viewName']))
+        {
+            $view = $parameters['viewName'];
+        }
 
         return $this->handleView([
-            'view' => $new ? 'add' : 'edit',
+            'view' => $view,
             'data' => [
                 'form' => $form->createView()
             ]
