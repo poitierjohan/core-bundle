@@ -3,6 +3,7 @@
 namespace Dywee\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -159,6 +160,9 @@ abstract class ParentController extends Controller
             $em->persist($object);
             $em->flush();
 
+            if ($request->isXmlHttpRequest())
+                return new JsonResponse();
+
             $request->getSession()->getFlashBag()->set('success', $this->entityClassName ?? 'Objet' . ' correctement ' . ($new ? 'ajouté' : 'modifié'));
 
             return $this->handleRedirection($parameters, $request, $object);
@@ -280,6 +284,9 @@ abstract class ParentController extends Controller
     {
         $parentPath = isset($parameters['viewFolder']) ? $this->bundleName.':'.$parameters['viewFolder'] : str_replace('\\', '', $this->repositoryName);
         $fileName = isset($mainParameters['view']) ? $mainParameters['view'] : 'dashboard';
+
+        if(isset($parameters['viewName']))
+            $fileName = $parameters['viewName'];
 
         //TODO $parameters['add_data'] deprecated
 
