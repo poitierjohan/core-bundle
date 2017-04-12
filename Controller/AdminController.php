@@ -72,7 +72,6 @@ class AdminController extends Controller
 
         $this->get('event_dispatcher')->dispatch(DyweeCoreEvent::BUILD_ADMIN_SIDEBAR, $event);
 
-
         return $this->render('DyweeCoreBundle:Admin:sidebar.html.twig', array('sidebar' => $event->getSidebar()));
     }
 }

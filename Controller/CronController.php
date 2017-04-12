@@ -247,7 +247,7 @@ class CronController extends Controller
                     {
                         $shipment->setState(9);
                         if(!$shipment->getMailSended()) {
-                            if ($shipment->getOrder()->getIsGift() == 1) {
+                            if ($shipment->getOrder()->isGift() == 1) {
                                 $message = \Swift_Message::newInstance()
                                     ->setSubject('La Belgique une fois - Le colis a été réceptionné')
                                     ->setFrom('info@labelgiqueunefois.com')
