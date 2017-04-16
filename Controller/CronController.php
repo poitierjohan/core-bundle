@@ -3,6 +3,7 @@
 namespace Dywee\CoreBundle\Controller;
 
 use Dywee\NotificationBundle\Entity\Notification;
+use Dywee\OrderBundle\Entity\Shipment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use PayPal\Rest\ApiContext;
@@ -197,7 +198,7 @@ class CronController extends Controller
         $response .= '<p>----------------------------------------------------------------------</p>';
         $response .= '<p>Gestion des envois</p>';
 
-        $sr = $em->getRepository('DyweeShipmentBundle:Shipment');
+        $sr = $em->getRepository(Shipment::class);
         $ss = $sr->findByActive();
 
         $client = new \nusoap_client("http://www.mondialrelay.fr/WebService/Web_Services.asmx?WSDL", true);

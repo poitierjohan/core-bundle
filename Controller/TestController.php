@@ -11,7 +11,7 @@ use Dywee\OrderBundle\Entity\OrderElement;
 use Dywee\ProductBundle\Entity\Category;
 use Dywee\ProductBundle\Entity\Image;
 use Dywee\ProductBundle\Entity\Product;
-use Dywee\ShipmentBundle\Entity\Deliver;
+use Dywee\OrderBundle\Entity\Deliver;
 use libphonenumber\PhoneNumberUtil;
 use Njasm\Soundcloud\SoundcloudFacade;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

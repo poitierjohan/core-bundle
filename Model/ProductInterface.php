@@ -612,4 +612,9 @@ interface ProductInterface
      * @return string
      */
     public function getWeightUnit();
+
+    /**
+     * @return bool
+     */
+    public function isVirtual();
 }
