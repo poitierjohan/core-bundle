@@ -10,6 +10,10 @@ namespace Dywee\CoreBundle\Model;
  */
 interface CustomerInterface
 {
+    const UNKNOWN_GENDER = 'u';
+    const GENDER_MALE = 'm';
+    const GENDER_FEMALE =  'f';
+
     /**
      * @return int
      */
