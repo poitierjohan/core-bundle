@@ -27,7 +27,11 @@
                                 {% endfor %}
                             </ul>
                         {% else %}
-                            <a href="{{ child.route }}"><i class="{{ child.icon }}"></i> {{ child.label|trans }}</a>
+                            <a href="{{ child.route }}">
+                                {% if child.icon is defined %}
+                                    <i class="{{ child.icon }}"></i>
+                                {% endif %}
+                                {{ child.label|trans }}</a>
                         {% endif %}
                     </li>
                 {% endfor %}
