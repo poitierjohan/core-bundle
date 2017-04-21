@@ -1,7 +1,7 @@
 {% for item in sidebar.admin %}
     {% if item.type is defined and item.type == 'header' %}
         <li class="header">MAIN NAVIGATION</li>
-    {% elseif item.children is defined and item.children|length > 0 %}
+    {% elseif item.children is defined and item.children|length > 0 and item.label is defined %}
         <li class="treeview">
             <a href="#">
                 {% if item.icon is defined and item.icon != '' %}
@@ -62,7 +62,7 @@
                 #}
             </ul>
         </li>
-    {% else %}
+    {% elseif item.label is defined %}
         <li{% if item.active is defined and item.active %} class="active"{% endif %}>
             <a href="{{ item.route }}">
                 {% if item.icon is defined and item.icon != '' %}
